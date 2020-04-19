@@ -1,0 +1,96 @@
+/*******************************************************************************
+ * This files was developed for CS4233: Object-Oriented Analysis & Design.
+ * The course was taken at Worcester Polytechnic Institute.
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Copyright ©2016 Gary F. Pollice
+ *******************************************************************************/
+
+package escape.board;
+
+import java.util.*;
+import escape.board.coordinate.*;
+import escape.exception.EscapeException;
+import escape.piece.EscapePiece;
+import escape.util.LocationInitializer;
+
+
+/**
+ * Description
+ * @version 15 abr. 2020
+ */
+public class HexBoard implements Board<HexCoordinate>
+{
+	Map<HexCoordinate, LocationType> hex;
+	Map<HexCoordinate, EscapePiece> pieces;
+	
+	private final int xmax,ymax;
+	
+	/**
+	 * Description
+	 */
+	public HexBoard(int xmax,int ymax)
+	{
+		this.xmax = xmax;
+		this.ymax = ymax;
+		this.hex = new HashMap<HexCoordinate,LocationType>();
+		this.pieces = new HashMap<HexCoordinate,EscapePiece>();
+		
+	}
+
+	/*
+	 * @see escape.board.Board#getPieceAt(escape.board.coordinate.Coordinate)
+	 */
+	@Override
+	public EscapePiece getPieceAt(HexCoordinate coord)
+	{
+		return pieces.get(coord);
+	}
+
+	/*
+	 * @see escape.board.Board#putPieceAt(escape.piece.EscapePiece, escape.board.coordinate.Coordinate)
+	 */
+	@Override
+	public void putPieceAt(EscapePiece p, HexCoordinate coord)
+	{
+		if((getLocationType(coord) == null || getLocationType(coord) == LocationType.CLEAR) && getLocationType(coord) != LocationType.EXIT) {
+
+			this.pieces.put(coord, p);
+	
+		}
+		else if(getLocationType(coord) == LocationType.BLOCK) {
+			throw new EscapeException("ups, location is blocked");
+		}
+		
+	}
+	
+	/**
+	 * Description
+	 * @param c
+	 * @param lt
+	 */
+	public void setLocationType(HexCoordinate c, LocationType lt)
+	{
+		hex.put(c, lt);
+	}
+	
+	
+	
+	/**
+	 * Description
+	 * @param coord
+	 * @return
+	 */
+	public LocationType getLocationType(HexCoordinate coord) {
+		if(hex.get(coord) == null) {
+			setLocationType(coord,LocationType.CLEAR );
+		}
+		return hex.get(coord);
+		
+	}
+
+}
