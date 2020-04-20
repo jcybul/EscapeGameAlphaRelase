@@ -53,18 +53,18 @@ public class HexCoordinate implements Coordinate
 	 * axial coordinates sub-section
 	 */
 	@Override
-	public int distanceTo(Coordinate c)	
+	public int distanceTo(Coordinate c)
 	{
-		if(c instanceof HexCoordinate) {
-		HexCoordinate h = (HexCoordinate) c;
-		return (Math.abs(this.x - h.x) + Math.abs(this.x + this.y - h.x - h.y)
-				+ Math.abs(this.y - h.y)) / 2;
-		}
-		else {
+		if (c instanceof HexCoordinate) {
+			HexCoordinate h = (HexCoordinate) c;
+			return (Math.abs(this.x - h.x) + Math.abs(this.x + this.y - h.x - h.y)
+					+ Math.abs(this.y - h.y)) / 2;
+		} else {
 			throw new EscapeException("wrong coordinate type");
 		}
 
 	}
+
 	/**
 	 * @return the x
 	 */
@@ -72,6 +72,7 @@ public class HexCoordinate implements Coordinate
 	{
 		return x;
 	}
+
 	/**
 	 * @return the y
 	 */
@@ -79,8 +80,7 @@ public class HexCoordinate implements Coordinate
 	{
 		return y;
 	}
-	
-	
+
 	/*
 	 * @see java.lang.Object#hashCode()
 	 */
@@ -96,7 +96,7 @@ public class HexCoordinate implements Coordinate
 	@Override
 	public boolean equals(Object obj)
 	{
-		
+
 		if (!(obj instanceof HexCoordinate)) {
 			return false;
 		}

@@ -39,8 +39,16 @@ CREATE A SQUARE  BOARD WITH ALL THE APROPIATE VALUES		GOOD
 	acces a cordinate outside of the size of the board 
 		1.one for less than 1 
 		2.one for more than the max
+	
 	place a piece on a exit position check is empty
+	
 	place a piece on a blocked positon -> exception
+	
+	when a null pieces is passed and a piece was 
+	at given coordinate remove the piece
+	
+	catch exception when coordinate is out of bounds
+	for any of the given fuctions that use it
 	
 	
 
@@ -52,10 +60,16 @@ CREATE A HEX BOARD FROM FILE
 	the piece is a horse and placed by player 1
 	
 	getInfo from large coordinates to "prove infinity"
+	
 	place a piece on a exit position and then check that is null 
+	
 	place a piece on a blocked positon
+	
 	place a piece on a undeclared postion from file that should be clear
 
+	when a null pieces is passed and a piece was 
+	at given coordinate remove the piece
+	
 
 CREATE AN ORTHO BOARD FROM FIlE
 	initilize board with piece from file 
@@ -65,8 +79,16 @@ CREATE AN ORTHO BOARD FROM FIlE
 	acces a cordinate outside of the size of the board 
 		1.one for less than 1 
 		2.one for more than the max
+	
 	place a piece on a exit position and then check that is null 
+	
 	place a piece on a blocked positon
+	
+	when a null pieces is passed and a piece was 
+	at given coordinate remove the piece
+	
+	catch exception when coordinate is out of bounds
+	for any of the given fuctions that use it
 	
 
 

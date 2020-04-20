@@ -51,7 +51,8 @@ class BoardTest
 		BoardBuilder bb = new BoardBuilder(
 				new File("config/board/BoardConfig1.xml"));
 		Board board = bb.makeBoard();
-		assertNull(board.getPieceAt(SquareCoordinate.makeCoordinate(9, 9)));
+		Assertions.assertThrows(Exception.class,
+				() -> board.getPieceAt(SquareCoordinate.makeCoordinate(0, 7)));
 	}
 
 	// piece on a blocked location
@@ -102,6 +103,35 @@ class BoardTest
 		assertEquals(board.getPieceAt(SquareCoordinate.makeCoordinate(5, 4)), null);
 	}
 
+	
+	@Test
+	void squareAddNullPiece() throws Exception
+	{
+		BoardBuilder bb = new BoardBuilder(
+				new File("config/board/BoardConfig1.xml"));
+		Board board = bb.makeBoard();
+		EscapePiece p = null;
+		board.putPieceAt(p, SquareCoordinate.makeCoordinate(2, 2));
+		assertNull(board.getPieceAt(SquareCoordinate.makeCoordinate(2, 2)));
+	}
+	
+	@Test
+	void squareOutOfBounds() throws Exception
+	{
+		BoardBuilder bb = new BoardBuilder(
+				new File("config/board/BoardConfig1.xml"));
+		Board board = bb.makeBoard();
+		EscapePiece p = null;
+		Assertions.assertThrows(Exception.class,
+				() -> ((SquareBoard)board).setLocationType( SquareCoordinate.makeCoordinate(0, 7),LocationType.BLOCK));
+		Assertions.assertThrows(Exception.class,
+				() -> board.putPieceAt(p, SquareCoordinate.makeCoordinate(0, 7)));
+		Assertions.assertThrows(Exception.class,
+				() -> board.getPieceAt(SquareCoordinate.makeCoordinate(0, 7)));
+	}
+	
+	
+	
 	// hexagonal board test
 	@Test
 	void buildHexBoard() throws Exception
@@ -170,6 +200,17 @@ class BoardTest
 				.getLocationType(HexCoordinate.makeCoordinate(40, 50)));
 	}
 	
+	@Test
+	void hexAddNullPiece() throws Exception
+	{
+		BoardBuilder bb = new BoardBuilder(
+				new File("config/board/BoardConfig2.xml"));
+		Board board = bb.makeBoard();
+		EscapePiece p = null;
+		board.putPieceAt(p, HexCoordinate.makeCoordinate(2, 2));
+		assertNull(board.getPieceAt(HexCoordinate.makeCoordinate(2, 2)));
+	}
+	
 	// Orthogonal board test
 	@Test
 	void buildOrthoBoard() throws Exception
@@ -234,7 +275,34 @@ class BoardTest
 				() -> board.putPieceAt(p, OrthoSquareCoordinate.makeCoordinate(3, 5)));
 
 	}
+	
+	@Test
+	void orthoAddNullPiece() throws Exception
+	{
+		BoardBuilder bb = new BoardBuilder(
+				new File("config/board/BoardConfig3.xml"));
+		Board board = bb.makeBoard();
+		EscapePiece p = null;
+		board.putPieceAt(p, OrthoSquareCoordinate.makeCoordinate(2, 2));
+		assertNull(board.getPieceAt(OrthoSquareCoordinate.makeCoordinate(2, 2)));
+	}
 
+	@Test
+	void OrthoOutOfBounds() throws Exception
+	{
+		BoardBuilder bb = new BoardBuilder(
+				new File("config/board/BoardConfig3.xml"));
+		Board board = bb.makeBoard();
+		EscapePiece p = null;
+		Assertions.assertThrows(Exception.class,
+				() -> (((OrthoBoard)board)).setLocationType(OrthoSquareCoordinate.makeCoordinate(0, 0),LocationType.BLOCK));
+		Assertions.assertThrows(Exception.class,
+				() -> board.putPieceAt(p, OrthoSquareCoordinate.makeCoordinate(0, 7)));
+		Assertions.assertThrows(Exception.class,
+				() -> board.getPieceAt(OrthoSquareCoordinate.makeCoordinate(0, 7)));
+	}
+	
+	
 	// Other test
 	@Test
 	void unknownCoordinateSystem() throws Exception
