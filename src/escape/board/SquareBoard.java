@@ -52,13 +52,16 @@ public class SquareBoard implements Board<SquareCoordinate>
 	@Override
 	public void putPieceAt(EscapePiece p, SquareCoordinate coord)
 	{
+		// check coordinate is in bounds 
 		if(coord.getX() > xMax || coord.getY() > yMax || coord.getX() < 1 || coord.getY() < 1) {
 			throw new EscapeException("Coordinate out of Board");
 		}
+		// check location is valid 
 		else if(getLocationType(coord) == LocationType.BLOCK) {
 			throw new EscapeException("Location is Bloqued");
 		}
 		else {
+			// if is at exit location dont place but dont give errors 
 			if(getLocationType(coord) != LocationType.EXIT) {
 				setLocationType(coord, LocationType.CLEAR);
 				pieces.put(coord, p);
@@ -66,10 +69,20 @@ public class SquareBoard implements Board<SquareCoordinate>
 		}
 	}
 	
+	/**
+	 * Description set location type at given coordinate 
+	 * @param c
+	 * @param lt
+	 */
 	public void setLocationType(SquareCoordinate c, LocationType lt)
 	{
 		squares.put(c, lt);
 	}
+	/**
+	 * Description get location type at given coordinate,
+	 * @param coord
+	 * @return  if not declared return CLEAR, else return the declaration
+	 */
 	public LocationType getLocationType(SquareCoordinate coord) {
 		if(squares.get(coord) == null) {
 			return LocationType.CLEAR;

@@ -53,7 +53,7 @@ public class HexCoordinate implements Coordinate
 	 * axial coordinates sub-section
 	 */
 	@Override
-	public int distanceTo(Coordinate c) throws EscapeException
+	public int distanceTo(Coordinate c)	
 	{
 		if(c instanceof HexCoordinate) {
 		HexCoordinate h = (HexCoordinate) c;

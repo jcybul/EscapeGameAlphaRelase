@@ -41,7 +41,7 @@ public class OrthoSquareCoordinate implements Coordinate
 	 * @see escape.board.coordinate.Coordinate#distanceTo(escape.board.coordinate.Coordinate)
 	 */
 	@Override
-	public int distanceTo(Coordinate c) throws EscapeException
+	public int distanceTo(Coordinate c)
 	{
 		if(c instanceof OrthoSquareCoordinate) {
 		OrthoSquareCoordinate s = (OrthoSquareCoordinate)c;

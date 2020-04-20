@@ -60,6 +60,10 @@ class CoordinateTest
 	void hexCoordinateTestDistance4() {
 		assertEquals(4,HexCoordinate.makeCoordinate(-1,-1).distanceTo(HexCoordinate.makeCoordinate(2,0)));
 	}
+	@Test
+	void hexCoordinateTestDistance5() {
+		assertEquals(6,HexCoordinate.makeCoordinate(3,0).distanceTo(HexCoordinate.makeCoordinate(0,-3)));
+	}
 	
 	@Test
 	void hexWithSquareException() {
@@ -67,9 +71,7 @@ class CoordinateTest
 	}
 	
 	
-	
-	
-	
+
 	
 	//Orthogonal Square Coordinate Test
 	@Test

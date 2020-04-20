@@ -55,14 +55,16 @@ public class OrthoBoard  implements Board<OrthoSquareCoordinate>
 	@Override
 	public void putPieceAt(EscapePiece p, OrthoSquareCoordinate coord) 
 	{
-		
+		// check that the coordinate is in bounds 
 		if(coord.getX() > xMax || coord.getY() > yMax || coord.getX() < 1 || coord.getY() < 1) {
 			throw new EscapeException("Coordinate out of Board");
 		}
+		// check the location is valid 
 		else if(getLocationType(coord) == LocationType.BLOCK) {
 			throw new EscapeException("Location is Bloqued");
 		}
 		else {
+			// if is at exit location dont place but dont give errors 
 			if(getLocationType(coord) != LocationType.EXIT)
 		pieces.put(coord, p);
 		setLocationType(coord, LocationType.CLEAR);
@@ -70,11 +72,21 @@ public class OrthoBoard  implements Board<OrthoSquareCoordinate>
 		
 	}
 	
+	/**
+	 * Description set the location type of given coordinate 
+	 * @param c
+	 * @param lt
+	 */
 	public void setLocationType(OrthoSquareCoordinate c, LocationType lt)
 	{
 		ortho.put(c, lt);
 	}
 	
+	/**
+	 * Description get the type of given location, if it is undeclared get CLEAR
+	 * @param coord
+	 * @return the locationtype at the spot
+	 */
 	public LocationType getLocationType(OrthoSquareCoordinate coord) {
 		
 		if(ortho.get(coord) == null) {

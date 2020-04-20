@@ -20,10 +20,19 @@ import escape.board.coordinate.CoordinateID;
  */
 public interface BoardFactory 
 {
+	
+	/**
+	 * Description create the apropiate board given the coordinate ID 
+	 * @param co
+	 * @param x
+	 * @param y
+	 * @return the created board 
+	 */
 	public static Board createB(CoordinateID co,int x ,int y) {
 		
 		Board ret =  null;
 		switch(co){
+			//switch depending on the CoordinateID
 			case SQUARE:
 				ret = new SquareBoard(x, y);
 				

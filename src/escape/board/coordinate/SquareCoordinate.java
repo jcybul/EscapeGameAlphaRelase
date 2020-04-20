@@ -39,12 +39,12 @@ public class SquareCoordinate implements Coordinate
 	 * @see escape.board.coordinate.Coordinate#distanceTo(escape.board.coordinate.Coordinate)
 	 */
 	@Override
-	public int distanceTo(Coordinate c) throws EscapeException
+	public int distanceTo(Coordinate c) 
 	{
 		if(c instanceof SquareCoordinate) {
 		SquareCoordinate f = (SquareCoordinate)c;
-		int ro = Math.abs(this.x - f.x);
-		int co = Math.abs(this.y - f.y);
+		int ro = Math.abs(this.x - f.getX());
+		int co = Math.abs(this.y - f.getY());
 		if(co > ro) {
 			return co;
 		}

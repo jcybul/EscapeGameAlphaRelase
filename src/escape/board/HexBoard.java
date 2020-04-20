@@ -57,11 +57,14 @@ public class HexBoard implements Board<HexCoordinate>
 	@Override
 	public void putPieceAt(EscapePiece p, HexCoordinate coord)
 	{
+		//check that the piece can be placed in that location 
+		// if is at exit location dont place but dont give errors 
 		if((getLocationType(coord) == null || getLocationType(coord) == LocationType.CLEAR) && getLocationType(coord) != LocationType.EXIT) {
 
 			this.pieces.put(coord, p);
 	
 		}
+		// throw exception if is a blocked positon
 		else if(getLocationType(coord) == LocationType.BLOCK) {
 			throw new EscapeException("ups, location is blocked");
 		}
@@ -86,6 +89,7 @@ public class HexBoard implements Board<HexCoordinate>
 	 * @return
 	 */
 	public LocationType getLocationType(HexCoordinate coord) {
+		//if the location was not declared in the config file default is clear
 		if(hex.get(coord) == null) {
 			setLocationType(coord,LocationType.CLEAR );
 		}

@@ -41,11 +41,18 @@ public class BoardBuilder
 	}
 	
 	
-	public Board makeBoard() throws Exception
+	/**
+	 * Description create a board with the specifications given on the board 
+	 * @return Board
+	 * @throws Exception the information given on the file is incorrect
+	 */
+	public Board makeBoard()
 	{
 		Board b = null;
 		try {
+		// create the appropiate board using data from xml and the board factory
 		 b = BoardFactory.createB(bi.getCoordinateId(), bi.getxMax(), bi.getyMax());
+		 // initialize the board
 		 initializer(b, bi.getLocationInitializers());
 		}
 		catch (Exception e) {
@@ -56,8 +63,15 @@ public class BoardBuilder
 
 	}
 	
+	/**
+	 * Description initilize a given board of any type to the 
+	 * values decribed on the xml files
+	 * @param board b
+	 * @param initializers
+	 */
 	private void initializer(Board b, LocationInitializer... initializers)
 	{
+		//check what type of bord it is 
 		if(b instanceof SquareBoard) {
 			
 		for (LocationInitializer li : initializers) {
