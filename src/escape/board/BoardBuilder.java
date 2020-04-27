@@ -74,6 +74,7 @@ public class BoardBuilder
 	private void initializer(Board b, LocationInitializer... initializers)
 	{
 		// check what type of bord it is
+		if(initializers != null) {
 		if (b instanceof SquareBoard) {
 
 			for (LocationInitializer li : initializers) {
@@ -114,6 +115,7 @@ public class BoardBuilder
 			}
 		}
 
+	}
 	}
 
 }

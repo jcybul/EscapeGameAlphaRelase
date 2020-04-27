@@ -41,13 +41,6 @@ public class LocationInitializer
         this.player = player;
         this.pieceName = pieceName;
     }
-    
-    public LocationInitializer(int x, int y, LocationType locationType) {
-  
-    	this.x = x;
-    	this.y = y;
-    	this.locationType = locationType;
-    }
 
     /*
      * @see java.lang.Object#toString()

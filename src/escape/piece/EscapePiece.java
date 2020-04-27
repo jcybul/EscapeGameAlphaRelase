@@ -37,7 +37,9 @@ public class EscapePiece
     }
 	
 	/**
-	 * Static factory member. 
+	 * Static factory method. This creates and returns the specified
+	 * Escape piece for the current game version.
+	 * 
 	 * DO NOT CHANGE THE SIGNATURE.
 	 * @param player the player the piece belongs to
 	 * @param name the piee name
@@ -65,10 +67,12 @@ public class EscapePiece
 	}
 	
 	public boolean equals(EscapePiece p) {
-		if(this.name == p.getName()&&  this.player == p.getPlayer()){
+		if(p.getName() == this.getName() && p.getPlayer() == this.getPlayer()) {
 			return true;
 		}
-		else{return false;}
-			
+		else {
+			return false;
+		}
+		
 	}
 }

@@ -15,6 +15,17 @@ import org.junit.jupiter.api.*;
 import escape.board.coordinate.*;
 import escape.exception.EscapeException;
 import escape.piece.*;
+import escape.piece.EscapePiece;
+import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import java.io.File;
+import org.junit.jupiter.api.Test;
+import escape.board.coordinate.*;
+import escape.piece.EscapePiece;
+import static escape.piece.Player.*;
+import static escape.piece.PieceName.*;
+import static escape.piece.EscapePiece.*;
+
 
 /**
  * Description
@@ -33,10 +44,15 @@ class BoardTest
 		assertTrue(board instanceof SquareBoard);
 		// Now I will do some tests on this board and its contents.
 		// Create a piece equal to the one passed by the file
-		EscapePiece piece = new EscapePiece(Player.PLAYER1, PieceName.HORSE);
+		EscapePiece piece =  EscapePiece.makePiece(Player.PLAYER1, PieceName.HORSE);
 		assertNotNull(board.getPieceAt(escape.board.coordinate.SquareCoordinate.makeCoordinate(2,2)));
-		assertTrue(piece.equals(board.getPieceAt(
-				escape.board.coordinate.SquareCoordinate.makeCoordinate(2, 2))));
+		assertTrue(piece.getName() == board.getPieceAt(
+				escape.board.coordinate.SquareCoordinate.makeCoordinate(2, 2)).getName() 
+				&&
+				piece.getPlayer() == board.getPieceAt(
+						escape.board.coordinate.SquareCoordinate.makeCoordinate(2, 2)).getPlayer()
+				
+				);
 		// Check that initilazing a location type is correct from file
 		assertEquals(LocationType.BLOCK, ((SquareBoard) board).getLocationType(
 				escape.board.coordinate.SquareCoordinate.makeCoordinate(3, 5)));
@@ -62,7 +78,7 @@ class BoardTest
 		BoardBuilder bb = new BoardBuilder(
 				new File("config/board/BoardConfig1.xml"));
 		Board board = bb.makeBoard();
-		EscapePiece p = new EscapePiece(Player.PLAYER1, PieceName.FROG);
+		EscapePiece p = EscapePiece.makePiece(Player.PLAYER1, PieceName.FROG);
 		Assertions.assertThrows(Exception.class,
 				() -> board.putPieceAt(p, SquareCoordinate.makeCoordinate(3, 5)));
 
@@ -142,7 +158,7 @@ class BoardTest
 		Board b = bb.makeBoard();
 		assertTrue(b instanceof HexBoard);
 		// create a piece
-		EscapePiece piece = new EscapePiece(Player.PLAYER1, PieceName.HORSE);
+		EscapePiece piece = makePiece(Player.PLAYER1, PieceName.HORSE);
 		assertNotNull(b.getPieceAt(escape.board.coordinate.HexCoordinate.makeCoordinate(2, 2)));
 		assertTrue(piece.equals(b.getPieceAt(
 				escape.board.coordinate.HexCoordinate.makeCoordinate(2, 2))));
@@ -219,7 +235,7 @@ class BoardTest
 				new File("config/board/BoardConfig3.xml"));
 		Board b = bb.makeBoard();
 		assertTrue(b instanceof OrthoBoard);
-		EscapePiece piece = new EscapePiece(Player.PLAYER1, PieceName.HORSE);
+		EscapePiece piece = makePiece(Player.PLAYER1, PieceName.HORSE);
 		assertNotNull(b.getPieceAt(escape.board.coordinate.OrthoSquareCoordinate.makeCoordinate(2, 2)));
 		assertTrue(piece
 				.equals(b.getPieceAt(escape.board.coordinate.OrthoSquareCoordinate
