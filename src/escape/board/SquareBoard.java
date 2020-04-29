@@ -8,7 +8,7 @@
 package escape.board;
 
 import java.util.*;
-import escape.board.coordinate.SquareCoordinate;
+import escape.board.coordinate.*;
 import escape.exception.EscapeException;
 import escape.piece.EscapePiece;
 
@@ -24,6 +24,7 @@ public class SquareBoard implements Board<SquareCoordinate>
 {
 	Map<SquareCoordinate, LocationType> squares;
 	Map<SquareCoordinate, EscapePiece> pieces;
+	private CoordinateID coorType = CoordinateID.SQUARE; 
 
 	private final int xMax, yMax;
 
@@ -33,6 +34,11 @@ public class SquareBoard implements Board<SquareCoordinate>
 		this.yMax = yMax;
 		pieces = new HashMap<SquareCoordinate, EscapePiece>();
 		squares = new HashMap<SquareCoordinate, LocationType>();
+	}
+	
+	public CoordinateID getCoordinateType()
+	{
+	return this.coorType;
 	}
 
 	/*

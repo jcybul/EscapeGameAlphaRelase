@@ -33,8 +33,10 @@ class BetaEscapeGameTests
         EscapeGameBuilder egb 
             = new EscapeGameBuilder(new File("config/SampleEscapeGame.xml"));
         EscapeGameManager emg = egb.makeGameManager();
-  
+        assertTrue(emg instanceof SquareGame);
         // Exercise the game now: make moves, check the board, etc.
+        
+        
     }
     
 }

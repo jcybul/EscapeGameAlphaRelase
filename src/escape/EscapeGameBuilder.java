@@ -12,9 +12,13 @@
 
 package escape;
 
+import static escape.board.LocationType.CLEAR;
 import java.io.*;
 import javax.xml.bind.*;
-import escape.util.EscapeGameInitializer;
+import escape.board.*;
+import escape.board.coordinate.*;
+import escape.piece.EscapePiece;
+import escape.util.*;
 
 /**
  * This class is what a client will use to creat an instance of a game, given
@@ -40,6 +44,7 @@ public class EscapeGameBuilder
         Unmarshaller mub = contextObj.createUnmarshaller();
         gameInitializer = 
             (EscapeGameInitializer)mub.unmarshal(new FileReader(fileName));
+        
     }
     
     /**
@@ -49,7 +54,64 @@ public class EscapeGameBuilder
      */
     public EscapeGameManager makeGameManager()
     {
-        // To be implemented
-        return null;
+    	EscapeGameManager manager = null;
+    	Board gameBoard = BoardFactory.createB(gameInitializer.getCoordinateType(),gameInitializer.getxMax()
+    			,gameInitializer.getyMax());
+    	initilizer(gameBoard,gameInitializer.getLocationInitializers());
+    	manager = GameFactory.CreateGame(gameInitializer.getCoordinateType(),gameBoard);
+        return manager;
+        		 
     }
+    
+    /**
+     * Description
+     * @param b
+     * @param initializers
+     */
+    private void initilizer (Board b , LocationInitializer... initializers) {
+    	if(initializers != null) {
+    		if (b instanceof SquareBoard) {
+
+    			for (LocationInitializer li : initializers) {
+    				SquareCoordinate c = SquareCoordinate.makeCoordinate(li.x, li.y);
+    				if (li.pieceName != null) {
+    					b.putPieceAt(new EscapePiece(li.player, li.pieceName), c);
+    				}
+
+    				if (li.locationType != null && li.locationType != CLEAR) {
+    					((SquareBoard) b).setLocationType(c, li.locationType);
+    				}
+    			}
+    		} else if (b instanceof HexBoard) {
+
+    			for (LocationInitializer li : initializers) {
+    				HexCoordinate c = HexCoordinate.makeCoordinate(li.x, li.y);
+    				if (li.pieceName != null) {
+    					b.putPieceAt(new EscapePiece(li.player, li.pieceName), c);
+    				}
+
+    				if (li.locationType != null && li.locationType != CLEAR) {
+    					((HexBoard) b).setLocationType(c, li.locationType);
+    				}
+    			}
+
+    		} else if (b instanceof OrthoBoard) {
+
+    			for (LocationInitializer li : initializers) {
+    				OrthoSquareCoordinate c = OrthoSquareCoordinate.makeCoordinate(li.x,
+    						li.y);
+    				if (li.pieceName != null) {
+    					b.putPieceAt(new EscapePiece(li.player, li.pieceName), c);
+    				}
+
+    				if (li.locationType != null && li.locationType != CLEAR) {
+    					((OrthoBoard) b).setLocationType(c, li.locationType);
+    				}
+    			}
+    		}
+
+    	}
+    	}
+    	
+    
 }
