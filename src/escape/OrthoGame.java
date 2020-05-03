@@ -12,9 +12,11 @@
 
 package escape;
 
+import java.util.HashMap;
 import escape.board.Board;
 import escape.board.coordinate.OrthoSquareCoordinate;
-import escape.piece.EscapePiece;
+import escape.piece.*;
+import escape.util.PieceTypeInitializer;
 
 /**
  * Description
@@ -28,8 +30,10 @@ public class OrthoGame implements EscapeGameManager<OrthoSquareCoordinate>
 	 */
 	
 	Board b;
-	public OrthoGame(Board b)
+	HashMap<PieceName,PieceTypeInitializer> PieceTypes;
+	public OrthoGame(Board b,HashMap<PieceName,PieceTypeInitializer> PieceTypes)
 	{
+		this.PieceTypes = PieceTypes;
 		this.b = b;
 	}
 

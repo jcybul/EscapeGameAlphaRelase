@@ -12,10 +12,13 @@
 
 package escape;
 
-import escape.board.Board;
+import java.util.*;
+import escape.board.*;
 import escape.board.coordinate.*;
-import escape.piece.EscapePiece;
-import escape.util.EscapeGameInitializer;
+import escape.piece.*;
+import escape.rule.SquareGameHashMapOfRules;
+import escape.rule.SquareGameRules.Rules;
+import escape.util.*;
 
 /**
  * Description
@@ -24,13 +27,13 @@ import escape.util.EscapeGameInitializer;
  */
 public class SquareGame implements EscapeGameManager<SquareCoordinate>
 {	
-	public Board b;
+	public SquareBoard b;
+	public HashMap<PieceName,PieceTypeInitializer> PieceTypes;
 	
-	
-	public SquareGame(Board b)
+	public SquareGame(SquareBoard b,HashMap<PieceName,PieceTypeInitializer> PieceTypes)
 	{
+		this.PieceTypes = PieceTypes;
 		this.b = b;
-
 	}
 	/*
 	 * @see escape.EscapeGameManager#move(escape.board.coordinate.Coordinate, escape.board.coordinate.Coordinate)
@@ -38,8 +41,25 @@ public class SquareGame implements EscapeGameManager<SquareCoordinate>
 	@Override
 	public boolean move(SquareCoordinate from, SquareCoordinate to)
 	{
-		// TODO Auto-generated method stub
-		return false;
+		SquareGameHashMapOfRules rules = new SquareGameHashMapOfRules();
+		if(b.getPieceAt(from) == null) {
+			return false;
+		}
+		
+		MovementPatternID pattern = this.PieceTypes.get(b.getPieceAt(from).getName()).getMovementPattern();
+		ArrayList<Rules> list = rules.movePattern.get(pattern);
+		for(Rules r: list) {
+			if(r.TestRule(from, to, this)) {
+				EscapePiece temp = b.getPieceAt(from);
+				b.putPieceAt(temp,to);
+				b.removePieceFrom(from);
+				if(b.getLocationType(to) == LocationType.EXIT) {
+					b.removePieceFrom(to);
+				}
+				return true;
+			}
+		}
+			return false;
 	}
 
 	/*
@@ -48,7 +68,6 @@ public class SquareGame implements EscapeGameManager<SquareCoordinate>
 	@Override
 	public EscapePiece getPieceAt(SquareCoordinate coordinate)
 	{
-		
 		return b.getPieceAt(coordinate);
 	}
 
@@ -58,8 +77,7 @@ public class SquareGame implements EscapeGameManager<SquareCoordinate>
 	@Override
 	public SquareCoordinate makeCoordinate(int x, int y)
 	{
-		// TODO Auto-generated method stub
-		return null;
+		return SquareCoordinate.makeCoordinate(x, y);
 	}
 
 }

@@ -12,8 +12,11 @@
 
 package escape;
 
+import java.util.HashMap;
 import escape.board.*;
 import escape.board.coordinate.*;
+import escape.piece.PieceName;
+import escape.util.PieceTypeInitializer;
 /**
  * Description
  * @version 28 abr. 2020
@@ -28,27 +31,23 @@ public interface GameFactory
 	 * @param b
 	 * @return
 	 */
-	public static EscapeGameManager CreateGame(CoordinateID id,Board b) {
+	public static EscapeGameManager CreateGame(CoordinateID id,Board b,HashMap<PieceName, PieceTypeInitializer> types) {
 		
 		EscapeGameManager ret = null;
 		switch (id) {
 			// switch depending on the CoordinateID
 			case SQUARE:
-				ret = new SquareGame(b) {
+				ret = new SquareGame((SquareBoard)b,types) {
 				};
 				break;
 			case HEX:
-				ret = new HexGame(b);
+				ret = new HexGame((HexBoard)b,types);
 				break;
 
 			case ORTHOSQUARE:
-				ret = new OrthoGame(b);
+				ret = new OrthoGame((OrthoBoard)b,types);
 				break;
 		}
 		return ret;
 	}
-		
-		
 	}
-
-

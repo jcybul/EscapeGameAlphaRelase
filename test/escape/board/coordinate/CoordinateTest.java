@@ -13,6 +13,7 @@
 package escape.board.coordinate;
 
 import static escape.board.coordinate.SquareCoordinate.makeCoordinate;
+import static org.junit.Assert.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.*;
 import escape.exception.EscapeException;
@@ -28,6 +29,10 @@ class CoordinateTest
 	
 	//Square Coordinate Test
 	@Test
+	void diagonalTest() {
+		assertFalse(SquareCoordinate.makeCoordinate(7, 8).sameDiagonal(SquareCoordinate.makeCoordinate(6, 8)));
+	}
+	@Test
 	void squareCoordinateTestDistance1() {
 		assertEquals(1,SquareCoordinate.makeCoordinate(1,1).distanceTo(SquareCoordinate.makeCoordinate(2,2)));
 	}
@@ -39,6 +44,7 @@ class CoordinateTest
 	void squareWithOrthoSquareException() {
 		Assertions.assertThrows(EscapeException.class, ()-> SquareCoordinate.makeCoordinate(1,2).distanceTo(OrthoSquareCoordinate.makeCoordinate(3,5)));
 	}
+	
 	
 	
 	

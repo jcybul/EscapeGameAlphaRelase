@@ -105,6 +105,71 @@ public class PieceTypeInitializer
     /**
      * @return the attributes
      */
+    
+    
+    /**
+     * get the distance it can move if it exists
+     * @param p
+     * @return
+     */
+    public static int getMaxDistance(PieceAttribute[] p) {
+    	int ret = -1;
+    	for(PieceAttribute d:p) {
+    		if(d.getId() == PieceAttributeID.DISTANCE || d.getId() == PieceAttributeID.FLY) {
+    			ret = d.getIntValue();
+    		}
+    	}
+    	return ret;
+    }
+    
+    /**
+     * check the jump atribute of a piece
+     * @param p
+     * @return
+     */
+    public static boolean canJump(PieceAttribute[] p) {
+    	
+    	for(PieceAttribute d:p) {
+    		if(d.getId() == PieceAttributeID.JUMP && d.isBooleanValue() == true) {
+    			return true;
+    		}
+    	}
+    	return false;
+  
+    }
+    
+    /**
+     * check if a piece has a fly attribute
+     * @param p
+     * @return
+     */
+    public static boolean canFly(PieceAttribute[] p) {
+    	
+    	for(PieceAttribute d:p) {
+    		if(d.getId() == PieceAttributeID.FLY ) {
+    			return true;
+    		}
+    	}
+    	return false;
+    }
+    
+    /**
+     * check the unblock state of given piecetype 
+     * @param p
+     * @return
+     */
+    public static boolean canUnblock(PieceAttribute[] p) {
+    	for(PieceAttribute d:p) {
+    		if(d.getId() == PieceAttributeID.UNBLOCK && d.isBooleanValue()) {
+    			return true;
+    		}
+    	}
+    	return false;
+
+    	
+    }
+    
+    
     public PieceAttribute[] getAttributes()
     {
         return attributes;

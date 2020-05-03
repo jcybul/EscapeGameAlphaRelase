@@ -14,10 +14,11 @@ package escape;
 
 import static escape.board.LocationType.CLEAR;
 import java.io.*;
+import java.util.HashMap;
 import javax.xml.bind.*;
 import escape.board.*;
 import escape.board.coordinate.*;
-import escape.piece.EscapePiece;
+import escape.piece.*;
 import escape.util.*;
 
 /**
@@ -54,13 +55,25 @@ public class EscapeGameBuilder
      */
     public EscapeGameManager makeGameManager()
     {
+    	//create a board and a escape game manager
     	EscapeGameManager manager = null;
     	Board gameBoard = BoardFactory.createB(gameInitializer.getCoordinateType(),gameInitializer.getxMax()
-    			,gameInitializer.getyMax());
-    	initilizer(gameBoard,gameInitializer.getLocationInitializers());
-    	manager = GameFactory.CreateGame(gameInitializer.getCoordinateType(),gameBoard);
+    			,gameInitializer.getyMax());	
+    	boardInitilizer(gameBoard,gameInitializer.getLocationInitializers());
+    	HashMap<PieceName, PieceTypeInitializer> type = typeInicializer(gameInitializer.getPieceTypes());
+    	manager = GameFactory.CreateGame(gameInitializer.getCoordinateType(),gameBoard,type);
         return manager;
         		 
+    }
+ 
+    private HashMap<PieceName, PieceTypeInitializer> typeInicializer(PieceTypeInitializer...initializers) {
+    	HashMap<PieceName, PieceTypeInitializer> types = new HashMap<PieceName, PieceTypeInitializer>();
+    	if(initializers != null) {
+    	for(PieceTypeInitializer i: initializers) {
+    			types.put(i.getPieceName(), i);
+    	}
+    }
+    	return types;
     }
     
     /**
@@ -68,7 +81,7 @@ public class EscapeGameBuilder
      * @param b
      * @param initializers
      */
-    private void initilizer (Board b , LocationInitializer... initializers) {
+    private void boardInitilizer (Board b , LocationInitializer... initializers) {
     	if(initializers != null) {
     		if (b instanceof SquareBoard) {
 

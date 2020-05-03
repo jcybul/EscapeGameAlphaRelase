@@ -36,9 +36,12 @@ public class SquareBoard implements Board<SquareCoordinate>
 		squares = new HashMap<SquareCoordinate, LocationType>();
 	}
 	
-	public CoordinateID getCoordinateType()
-	{
-	return this.coorType;
+	public int getXMax() {
+		return xMax;
+	}
+	
+	public int getYMax() {
+		return yMax;
 	}
 
 	/*
@@ -68,8 +71,7 @@ public class SquareBoard implements Board<SquareCoordinate>
 		}
 		// check location is valid
 		else if (getLocationType(coord) == LocationType.BLOCK) {
-			throw new EscapeException("Location is Bloqued");
-		} else {
+ 		} else {
 			
 			if(p == null && pieces.containsKey(coord)) {
 				pieces.remove(coord);
@@ -95,6 +97,10 @@ public class SquareBoard implements Board<SquareCoordinate>
 			throw new EscapeException("Coordinate out of Board");
 		}
 		squares.put(c, lt);
+	}
+	
+	public void removePieceFrom(SquareCoordinate from) {
+		pieces.remove(from);
 	}
 
 	/**

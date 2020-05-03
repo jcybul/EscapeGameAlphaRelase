@@ -1,2 +1,154 @@
 TDD for beta Release 
 initilize a board from file with the given pieces set correctly
+
+
+
+
+1. have a piece move a distance larger than it is allowed:
+		
+Linear movement test:
+		
+	SquareBoard:
+	
+	move Linear manner to any direction:
+	diagonal:   frog(5,5)->(2,2)    True
+	orthogonal: frog(5,5)->(5,1)    True
+	random:     frog(5,5)->(8,3)    False
+	
+	Distance more than allowed
+	frog(5,5)->(5,11) allowed 5 current 6   False
+	
+	Landing on a Blocked postion
+	
+	ORTHO
+	
+		Jump over one piece 
+		frog(5,5)->(2,5) piece at 3,5   	    True
+		
+		jump over to pieces 
+		frog(3,5)->(3,2) two pieces in between  False
+		
+		fly over two pieces
+		horse(7,4)->(7,1) two pieces in between True 
+		
+		blocked test 
+		
+		piece that has unblock capabilities 
+		fox(1,5)->(1,2) block at (1,4)  true
+		
+		fly over blocked positon 
+		horse(4,8)->(1,8) block at 3,8 true 
+		
+		land on block space                        
+		horse(4,8)->(3,8)						false
+
+	DIOGANAL:
+		
+		Jump over one piece
+		frog(5,3)->(3,1) piece at 4,2              true 
+		
+		jump over two pieces
+		frog(5,8)->(2,5) two pieces in between     False
+		 
+		fly over two pieces
+		horse(8,7)->(11,4) two pieces in between   true
+		
+		piece that has unblock capabilities
+		fox(8,2)->(10,4) block at (9,3)            true 
+	
+		fly over Blocked postion
+		horse(10,6)->(13,9) block at(12,)      true 
+	
+Diagonal movement pattern:
+
+
+	diagonal linear 
+		move in clear diagonal all for directions:
+		frog(5,5)->(7,3)   true 
+		frog(5,5)->(3,3)   true
+		frog(5,5)->(3,7)   true 
+		frog(5,5)->(7,7)   true 
+		
+		none diagonal way:
+		(7,8)->(4,9) false
+		
+		jump over one piece in each direction 
+		frog(10,5)->(12,7)   true 
+		frog(10,5)->(12,3)   true 
+		frog(10,5)->(8,7)   true 
+		frog(10,5)->(8,3)   true 
+		
+		jump over two pieces 
+		frog(2,1)->(5,4) two pieces in between   false
+		
+		fly over two pieces
+		Horse(5,6)->(8,9)               true 
+		
+		Piece that has unblock capabilities
+		fox(3,5)->(1,7) block ar 2,6    true 
+		
+		Fly over Blocked Position
+		(10,9)->(12,11)  block at 11,1 true 
+		
+		Jump over to none consecutive pieces 
+		(13,8)->(18,13) pieces at (15,1) and (17,12)
+	diagonal linear 
+	
+	diagonal with direction changes:
+	
+	jump over one piece then change direction
+	(9,15)->(12,14) block at (10,16) piece at (10,14)
+	
+	
+	
+		
+		
+Ortho movement pattern: 
+	
+	path find ortho
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+Omni movemet pattern:
+
+	path finding test:
+	Piece at (2,8)-> (5,8) true in 4 moves no flying no unblocking
+	three blocks in the way at 
+	(3,8),(4,8),(4,7)
+	
+	
+	unblock path find 
+	(3,16)->(5,16) block at 4,15 and 4,16 and 4,17 
+	
+	No path because is surrounded by blocks 
+	pieces at (17,14)     false 
+	
+	No Path distance more than allowed 
+	Piece at (11,6)->(16,6)
+	
+	Jump outside a box of pieces
+	piece at(11,14)->(11,12) surrounded by 8 pieces true 
+	
+	jump two none consecutive pieces
+	block at to prevent other paths (3,1)(3,3)
+	(2,2)->(6,2)  pieces at (3,2) and (5,2)   true 
+	
+	jump over two consectuive pieces 
+	block at (4,11) and (4,13) 
+	(3,12)->(7,12) pieces at (4,12) and (5,12)false 
+	
+	Fly over two pieces
+	(8,7)->(8,4)      true 
+	
+		
+
+
+
+		

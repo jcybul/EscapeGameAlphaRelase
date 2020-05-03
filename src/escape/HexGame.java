@@ -12,9 +12,11 @@
 
 package escape;
 
+import java.util.HashMap;
 import escape.board.Board;
 import escape.board.coordinate.HexCoordinate;
-import escape.piece.EscapePiece;
+import escape.piece.*;
+import escape.util.PieceTypeInitializer;
 
 /**
  * Description
@@ -29,8 +31,10 @@ public class HexGame implements EscapeGameManager<HexCoordinate>
 	 */
 	
 	Board b;
-	public HexGame(Board b)
+	HashMap<PieceName,PieceTypeInitializer> PieceTypes;
+	public HexGame(Board b,HashMap<PieceName,PieceTypeInitializer> PieceTypes )
 	{
+		this.PieceTypes = PieceTypes;
 		this.b = b;
 	}
 
