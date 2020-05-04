@@ -10,7 +10,7 @@ package escape.board.coordinate;
 import java.awt.List;
 import java.util.*;
 import escape.board.*;
-import escape.board.coordinate.AStar.Node;
+import escape.board.coordinate.SquareBoardAStar.Node;
 import escape.exception.EscapeException;
 import escape.piece.MovementPatternID;
 import escape.util.PieceTypeInitializer;
@@ -716,7 +716,7 @@ public class SquareCoordinate implements Coordinate
 		switch(pattern) {
 			
 			case OMNI:
-				AStar star = new AStar(b, this,p);
+				SquareBoardAStar star = new SquareBoardAStar(b, this,p);
 				ArrayList<Node> l = star.findPathToOmni(to.getX(),to.getY());
 				if( l != null && l.size()-1 <= PieceTypeInitializer.getMaxDistance(p)){
 				return true;
@@ -725,7 +725,7 @@ public class SquareCoordinate implements Coordinate
 					return false;
 				}
 			case DIAGONAL:
-				AStar stard = new AStar(b,this,p);
+				SquareBoardAStar stard = new SquareBoardAStar(b,this,p);
 				ArrayList<Node> f = stard.findPathToDiagonal(to.getX(),to.getY());
 				if( f != null && f.size()-1 <= PieceTypeInitializer.getMaxDistance(p)){
 				return true;
@@ -734,7 +734,7 @@ public class SquareCoordinate implements Coordinate
 					return false;
 				}
 			case ORTHOGONAL:
-				AStar staro = new AStar(b,this,p);
+				SquareBoardAStar staro = new SquareBoardAStar(b,this,p);
 				ArrayList<Node> o = staro.findPathToOrtho(to.getX(),to.getY());
 				if( o != null && o.size()-1 <= PieceTypeInitializer.getMaxDistance(p)){
 				return true;

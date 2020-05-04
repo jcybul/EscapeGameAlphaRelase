@@ -12,7 +12,6 @@
 
 package escape.rule;
 
-import org.junit.experimental.theories.FromDataPoints;
 import escape.SquareGame;
 import escape.board.*;
 import escape.board.coordinate.*;
@@ -61,6 +60,8 @@ public class SquareGameRules
 	(from.diagonalIsClear(to, (SquareBoard)g.b) || (canJump.TestRule(from, to, g) && from.isJumpableDiagonalPath(to, (SquareBoard)g.b)) || canFly.TestRule(from, to, g)) &&
 	// check that a location that path is unblocked and or it can unblock or it can fly 
 	(from.diagonalIsUnblocked(to, (SquareBoard)g.b) || canUnblock.TestRule(from, to, g) || canFly.TestRule(from, to, g)) &&
+	//clear from exits or fly
+	(from.diagonalIsExitClear(to,(SquareBoard)g.b) || canFly.TestRule(from, to, g)) &&
 	// landing is not blocked
 	((SquareBoard)g.b).getLocationType(to) != LocationType.BLOCK;
 	
@@ -73,6 +74,8 @@ public class SquareGameRules
 	(from.orthagonalIsClear(to, (SquareBoard)g.b) || (canJump.TestRule(from, to, g) && from.isJumpableOrthoPath(to,(SquareBoard)g.b) || canFly.TestRule(from, to, g))) &&
 	// check that a location that path is unblocked and or it can unblock or it can fly 
 	(from.orthagonalIsUnblocked(to,(SquareBoard)g.b) || canUnblock.TestRule(from, to, g) || canFly.TestRule(from, to, g)) &&
+	//clear from exits or fly
+	(from.orthagonalIsExitClear(to,(SquareBoard)g.b) || canFly.TestRule(from, to, g)) &&
 	//landing position is not blocked
 	((SquareBoard)g.b).getLocationType(to) != LocationType.BLOCK;
 	

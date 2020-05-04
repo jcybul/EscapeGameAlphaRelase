@@ -12,10 +12,13 @@
 
 package escape;
 
-import java.util.HashMap;
-import escape.board.Board;
+import java.util.*;
+import escape.board.*;
 import escape.board.coordinate.OrthoSquareCoordinate;
 import escape.piece.*;
+import escape.rule.GameHashMapOfRules;
+import escape.rule.OrthoGameRules.ORules;
+import escape.rule.SquareGameRules.Rules;
 import escape.util.PieceTypeInitializer;
 
 /**
@@ -29,9 +32,9 @@ public class OrthoGame implements EscapeGameManager<OrthoSquareCoordinate>
 	 * Description
 	 */
 	
-	Board b;
-	HashMap<PieceName,PieceTypeInitializer> PieceTypes;
-	public OrthoGame(Board b,HashMap<PieceName,PieceTypeInitializer> PieceTypes)
+	public OrthoBoard b;
+	public HashMap<PieceName,PieceTypeInitializer> PieceTypes;
+	public OrthoGame(OrthoBoard b,HashMap<PieceName,PieceTypeInitializer> PieceTypes)
 	{
 		this.PieceTypes = PieceTypes;
 		this.b = b;
@@ -43,8 +46,28 @@ public class OrthoGame implements EscapeGameManager<OrthoSquareCoordinate>
 	@Override
 	public boolean move(OrthoSquareCoordinate from, OrthoSquareCoordinate to)
 	{
-		// TODO Auto-generated method stub
-		return false;
+		GameHashMapOfRules rules = new GameHashMapOfRules();
+		if(b.getPieceAt(from) == null) {
+			return false;
+		}
+		
+		MovementPatternID pattern = this.PieceTypes.get(b.getPieceAt(from).getName()).getMovementPattern();
+		ArrayList<ORules> list = rules.orthoMovePattern.get(pattern);
+		for(ORules r: list) {
+			if(r.oTest(from, to, this)) {
+				if( b.getPieceAt(to) != null && b.getPieceAt(from).getPlayer() == b.getPieceAt(to).getPlayer()) {
+					return false;
+				}
+				EscapePiece temp = b.getPieceAt(from);
+				b.putPieceAt(temp,to);
+				b.removePieceFrom(from);
+				if(b.getLocationType(to) == LocationType.EXIT) {
+					b.removePieceFrom(to);
+				}
+				return true;
+			}
+		}
+			return false;
 	}
 
 	/*
@@ -53,8 +76,11 @@ public class OrthoGame implements EscapeGameManager<OrthoSquareCoordinate>
 	@Override
 	public EscapePiece getPieceAt(OrthoSquareCoordinate coordinate)
 	{
-		// TODO Auto-generated method stub
-		return null;
+
+		if(b.getPieceAt(coordinate) == null) {
+			return null;
+		}
+		return b.getPieceAt(coordinate);
 	}
 
 	/*
@@ -63,8 +89,8 @@ public class OrthoGame implements EscapeGameManager<OrthoSquareCoordinate>
 	@Override
 	public OrthoSquareCoordinate makeCoordinate(int x, int y)
 	{
-		// TODO Auto-generated method stub
-		return null;
+		
+		return  OrthoSquareCoordinate.makeCoordinate(x, y);
 	}
 
 }

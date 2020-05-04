@@ -16,7 +16,7 @@
     </locationInitializers>
     <locationInitializers> 
         <x>11</x>
-        <y>1</y>
+        <y>10</y>
         <locationType>BLOCK</locationType>
     </locationInitializers>
     <locationInitializers> 
@@ -44,7 +44,7 @@
     </locationInitializers>
     <locationInitializers>
     	<x>15</x>
-    	<y>1</y>
+    	<y>10</y>
     	<pieceName>FROG</pieceName>
     	<player>PLAYER1</player>
     </locationInitializers>

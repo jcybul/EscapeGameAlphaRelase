@@ -71,7 +71,8 @@ public class SquareBoard implements Board<SquareCoordinate>
 		}
 		// check location is valid
 		else if (getLocationType(coord) == LocationType.BLOCK) {
- 		} else {
+			throw new EscapeException("Location is Bloqued");
+		} else {
 			
 			if(p == null && pieces.containsKey(coord)) {
 				pieces.remove(coord);
@@ -100,7 +101,9 @@ public class SquareBoard implements Board<SquareCoordinate>
 	}
 	
 	public void removePieceFrom(SquareCoordinate from) {
+		if(getPieceAt(from) != null) {
 		pieces.remove(from);
+		}
 	}
 
 	/**

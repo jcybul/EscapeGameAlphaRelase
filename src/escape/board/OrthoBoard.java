@@ -8,6 +8,7 @@
 
 package escape.board;
 
+import java.awt.color.CMMException;
 import java.util.*;
 import escape.board.coordinate.*;
 import escape.exception.EscapeException;
@@ -35,6 +36,15 @@ public class OrthoBoard implements Board<OrthoSquareCoordinate>
 
 	}
 
+
+	public int getXMax() {
+		return this.xMax;
+	}
+	
+	public int getYMax() {
+		return this.yMax;
+	}
+	
 	/*
 	 * @see escape.board.Board#getPieceAt(escape.board.coordinate.Coordinate)
 	 */
@@ -90,6 +100,17 @@ public class OrthoBoard implements Board<OrthoSquareCoordinate>
 		ortho.put(c, lt);
 	}
 
+	
+	/**
+	 * Remove a piece from the given location on the board
+	 * @param coordinate where piece is to be removed
+	 */
+	public void removePieceFrom(OrthoSquareCoordinate from) {
+		if(getPieceAt(from) != null) {
+		pieces.remove(from);
+		}
+	}
+	
 	/**
 	 * Description get the type of given location, if it is undeclared get CLEAR
 	 * 

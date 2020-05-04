@@ -108,14 +108,8 @@ Ortho movement pattern:
 	path find ortho
 		
 		
-		
-		
-		
-		
-		
-		
-		
-		
+			
+
 Omni movemet pattern:
 
 	path finding test:
@@ -149,6 +143,90 @@ Omni movemet pattern:
 	
 		
 
+ORTHO BOARD TEST 
 
+omni/ortho:
 
+	pathFind test:
+	(3,17)->(6,15)  three blocks to shape the path 
+	(3,15),(4,17),(5,16)
+	
+	unblock a path 
+	(4,6)->(6,6) block at 5,5 and 5,6 and 5,7 true 
+	
+	land on block postion false 
+	(10,9)->(12,8)       false 
+	
+	distance more than allowed 
+	max distance is 5 move 6 
+	(8,14)->14,14) false 
+	
+	Fly over two pieces 
+	(15,4)->(18,4) pieces at 16,4 and 17,4 true 
+	
+	jump over two non conescutive pieces 
+	(15,1)->(17,8)  pieces at (15,9) and (16,8) block at 17,8 true
+	
+	cant go over an exit even if it can jump
+	(9,18)->(11,18) exit at (10,18)
+	
+	fly over exit
+	(3,1)->(5,1) exit at (4,1)
+	
+	jump two pieces to land on a pieces that is an enemy piece 
+	(5,3)->(8,3) piece at 8,3 and 7,3  true 
+	
+	land on an exit
+	(16,16)->(18,17) true
+	
+	attack an enemy  true 
+	(7,10)->(7,11)
+	
+	attack an allay  false
+	(8,10)->(8,11) 
+	
+Linear:
+
+	PathFind using linear 
+	all four directions 
+	(11,6)->(13,6)
+	(11,6)->(11,8)
+	(11,6)->(11,4)
+	(11,6)->(9,6) all true
+	
+	unblock a path 
+	(12,15)->(14,15) block at (13,15)(13,14)(13,16) true 
+	
+	land on a block postion
+	(5,14)->(5,16) block at 5,16 false 
+	
+	distance more than allowed
+	(14,3)->(20,3) maxdist 5 false 
+	
+	fly over two pieces
+	(17,13)->(17,16) blocks at 18,14 and 16,14
+	pieces at 17,14 and 17,15 true 
+	
+	jump over two non consecutive pieces
+	(3,3)->(7,3) pieces at 4,3 and 6,3  true 
+	
+	pass over exit can jump 
+	(9,15)->(9,17) exit at 9,16 false 
+	
+	fly over an exit
+	(3,14)->(3,16) exit at 3,15 true 
+	
+	land on an exit
+	(16,6)->(16,7) exit at 16,7 true 
+	
+	atack an enemy piece 
+	(7,7)->(7,8) enemy at 7,8 true 
+	
+	atack a none enemy piece 
+	(6,7)->(6,8)  ally at 6,8 true 
+	
+	jump over a piece to capture
+	(7,13)->(7,15) piece at (7,13) true 
+	
+	
 		

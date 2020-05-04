@@ -16,7 +16,7 @@ import java.util.*;
 import escape.board.*;
 import escape.board.coordinate.*;
 import escape.piece.*;
-import escape.rule.SquareGameHashMapOfRules;
+import escape.rule.GameHashMapOfRules;
 import escape.rule.SquareGameRules.Rules;
 import escape.util.*;
 
@@ -41,13 +41,13 @@ public class SquareGame implements EscapeGameManager<SquareCoordinate>
 	@Override
 	public boolean move(SquareCoordinate from, SquareCoordinate to)
 	{
-		SquareGameHashMapOfRules rules = new SquareGameHashMapOfRules();
+		GameHashMapOfRules rules = new GameHashMapOfRules();
 		if(b.getPieceAt(from) == null) {
 			return false;
 		}
 		
 		MovementPatternID pattern = this.PieceTypes.get(b.getPieceAt(from).getName()).getMovementPattern();
-		ArrayList<Rules> list = rules.movePattern.get(pattern);
+		ArrayList<Rules> list = rules.squareMovePattern.get(pattern);
 		for(Rules r: list) {
 			if(r.TestRule(from, to, this)) {
 				EscapePiece temp = b.getPieceAt(from);

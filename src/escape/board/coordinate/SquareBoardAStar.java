@@ -22,7 +22,7 @@ import escape.util.PieceTypeInitializer.PieceAttribute;
  * https://rosettacode.org/wiki/A*_search_algorithm#Java
  * @version 1 may. 2020
  */
-public class AStar
+public class SquareBoardAStar
 {
 	private final ArrayList<Node> open;
     private final ArrayList<Node> closed;
@@ -55,7 +55,7 @@ public class AStar
        }
    }
  
-    AStar(SquareBoard b, SquareCoordinate coord, PieceAttribute[] p) {
+    SquareBoardAStar(SquareBoard b, SquareCoordinate coord, PieceAttribute[] p) {
         this.open = new ArrayList<>();
         this.closed = new ArrayList<>();
         this.path = new ArrayList<>();
@@ -179,6 +179,9 @@ public class AStar
     ** @return (int) distance
     */
 
+    /**
+     * find all neigbors of a given node
+     */
     private void addNeigborsToOpenListOmni() {
         Node node;
         for (int x = -1; x <= 1; x++) {
@@ -219,6 +222,9 @@ public class AStar
         Collections.sort(this.open);
     }
     
+    /**
+     *find neigbors of node on the same diagonals 
+     */
     private void addNeigborsToOpenListDiagonal() {
         Node node;
         for (int x = -1; x < 2; x=x+2) {
@@ -258,6 +264,9 @@ public class AStar
         Collections.sort(this.open);
     }
     
+    /**
+     * find neighbogrs in the ortho path of a given node 
+     */
     private void addNeigborsToOpenListOrtho() {
         Node node;
         for (int x = -1 ; x < 2; x++) {
