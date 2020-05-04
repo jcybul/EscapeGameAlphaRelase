@@ -43,7 +43,7 @@ public class SquareCoordinate implements Coordinate
 	 */
 	@Override
 	public int distanceTo(Coordinate c)
-	{
+	{ 
 		if (c instanceof SquareCoordinate) {
 			SquareCoordinate f = (SquareCoordinate) c;
 			int ro = Math.abs(this.x - f.getX());
@@ -107,276 +107,151 @@ public class SquareCoordinate implements Coordinate
 	}
 		
 	/**
-	 * Description calculate if the orthogonal is clear from other pieces 
+	 * Description calculate if the orthogonal is clear from given location and Pieces 
 	 * @param to Coordinate to destination
 	 * @param b  board 
-	 * @return true if the orthogonal is clear
+	 * @param l location type to check for 
+	 * @param Pieces if true check for pieces in the path else check the given location
+	 * @param Jump true if want to check to see if the path is a jumpbable path 
+	 * @return true if the orthogonal is clear or jumpable 
 	 */
-	public boolean orthagonalIsClear(SquareCoordinate to,SquareBoard b) {
-		
-		//make sure the path is orthogonal
-		if(!this.sameOrthogonal(to)) {
-			return false;
-		}
+	public boolean orthagonalILocationClear(SquareCoordinate to,SquareBoard b,LocationType l,boolean Pieces,boolean Jump) {
+
 		// check all four direction options
-		else{
-			
-			// when going horizontal and to the rigth 
-			if(this.getX() == to.getX() && this.getY() < to.getY()) {
-				int ypos = this.getY()+1; 
-				for(int i = 0; i< this.distanceTo(to)-1;i++) {
-					if(b.getPieceAt(makeCoordinate(this.getX(),ypos))!= null && (b.getLocationType(makeCoordinate(this.getX(), ypos)) != LocationType.BLOCK)){
-						return false;
-					}
-					ypos++;
-				}
-			}
-			//when going horizontal and to the left
-			else if(this.getX() == to.getX() && this.getY()> to.getY()) {
-				int ypos = this.getY()-1;
-				for(int i = 0; i< this.distanceTo(to)-1;i++) {
-					if(b.getPieceAt(makeCoordinate(this.getX(),ypos))!= null && (b.getLocationType(makeCoordinate(this.getX(), ypos)) != LocationType.BLOCK)){
-						return false;
-					}
-					ypos--;
-				}
-			}
-			//when going vertical and up 
-			else if(this.getY() == to.getY() && this.getX() < to.getX()) {
-				int xpos = this.getX()+1;
-				for(int i = 0; i< this.distanceTo(to)-1;i++) {
-					if(b.getPieceAt(makeCoordinate(xpos,this.getY()))!= null && (b.getLocationType(makeCoordinate(xpos,this.getY())) != LocationType.BLOCK)){
-						return false;
-					}
-					xpos++;
-				}
-			}
-			//when going vertical and down 
-			else if(this.getY() == to.getY() && this.getX() > to.getX()) {
-				int xpos = this.getX()-1;
-				for(int i = 0; i< this.distanceTo(to)-1;i++) {
-					if(b.getPieceAt(makeCoordinate(xpos,this.getY()))!= null && (b.getLocationType(makeCoordinate(xpos,this.getY())) != LocationType.BLOCK)){
-						return false;
-					}
-					xpos--;
-				}
-			}
-			
-		}
-		return true;
-	}
 	
-	/**
-	 * Description calculate if the orthogonal is clear from exits
-	 * @param to Coordinate to destination
-	 * @param b  board 
-	 * @return true if the orthogonal is clear
-	 */
-	public boolean orthagonalIsExitClear(SquareCoordinate to,SquareBoard b) {
-		
-		//make sure the path is orthogonal
-		if(!this.sameOrthogonal(to)) {
-			return false;
-		}
-		// check all four direction options
-		else{
 			
 			// when going horizontal and to the rigth 
 			if(this.getX() == to.getX() && this.getY() < to.getY()) {
 				int ypos = this.getY()+1; 
+				int jumpCounter =0;
 				for(int i = 0; i< this.distanceTo(to)-1;i++) {
-					if( (b.getLocationType(makeCoordinate(this.getX(), ypos)) == LocationType.EXIT)){
-						return false;
-					}
-					ypos++;
-				}
-			}
-			//when going horizontal and to the left
-			else if(this.getX() == to.getX() && this.getY()> to.getY()) {
-				int ypos = this.getY()-1;
-				for(int i = 0; i< this.distanceTo(to)-1;i++) {
-					if((b.getLocationType(makeCoordinate(this.getX(), ypos)) == LocationType.EXIT)){
-						return false;
-					}
-					ypos--;
-				}
-			}
-			//when going vertical and up 
-			else if(this.getY() == to.getY() && this.getX() < to.getX()) {
-				int xpos = this.getX()+1;
-				for(int i = 0; i< this.distanceTo(to)-1;i++) {
-					if((b.getLocationType(makeCoordinate(xpos,this.getY())) == LocationType.EXIT)){
-						return false;
-					}
-					xpos++;
-				}
-			}
-			//when going vertical and down 
-			else if(this.getY() == to.getY() && this.getX() > to.getX()) {
-				int xpos = this.getX()-1;
-				for(int i = 0; i< this.distanceTo(to)-1;i++) {
-					if((b.getLocationType(makeCoordinate(xpos,this.getY())) == LocationType.EXIT)){
-						return false;
-					}
-					xpos--;
-				}
-			}
-			
-		}
-		return true;
-	}
-	
-	/**
-	 * Description calculate if the orthogonal is clear from other pieces 
-	 * @param to Coordinate to destination
-	 * @param b  board 
-	 * @return true if the orthogonal is clear
-	 */
-	public boolean orthagonalIsUnblocked(SquareCoordinate to,SquareBoard b) {
-		
-		//make sure the path is orthogonal
-		if(!this.sameOrthogonal(to)) {
-			return false;
-		}
-		// check all four direction options
-		else{
-			
-			// when going horizontal and to the rigth 
-			if(this.getX() == to.getX() && this.getY() < to.getY()) {
-				int ypos = this.getY()+1; 
-				for(int i = 0; i< this.distanceTo(to)-1;i++) {
-					if( (b.getLocationType(makeCoordinate(this.getX(), ypos)) == LocationType.BLOCK)){
-						return false;
-					}
-					ypos++;
-				}
-			}
-			//when going horizontal and to the left
-			else if(this.getX() == to.getX() && this.getY()> to.getY()) {
-				int ypos = this.getY()-1;
-				for(int i = 0; i< this.distanceTo(to)-1;i++) {
-					if((b.getLocationType(makeCoordinate(this.getX(), ypos)) == LocationType.BLOCK)){
-						return false;
-					}
-					ypos--;
-				}
-			}
-			//when going vertical and up 
-			else if(this.getY() == to.getY() && this.getX() < to.getX()) {
-				int xpos = this.getX()+1;
-				for(int i = 0; i< this.distanceTo(to)-1;i++) {
-					if((b.getLocationType(makeCoordinate(xpos,this.getY())) == LocationType.BLOCK)){
-						return false;
-					}
-					xpos++;
-				}
-			}
-			//when going vertical and down 
-			else if(this.getY() == to.getY() && this.getX() > to.getX()) {
-				int xpos = this.getX()-1;
-				for(int i = 0; i< this.distanceTo(to)-1;i++) {
-					if((b.getLocationType(makeCoordinate(xpos,this.getY())) == LocationType.BLOCK)){
-						return false;
-					}
-					xpos--;
-				}
-			}
-			
-		}
-		return true;
-	}
-	/**
-	 * check that can jump that path, one space at a time
-	 * @param to
-	 * @param b
-	 * @return
-	 */
-	public boolean isJumpableOrthoPath(SquareCoordinate to, SquareBoard b) {
-		//make sure the path is orthogonal
-				if(!this.sameOrthogonal(to)) {
-					return false;
-				}
-				// check all four direction options
-				else{
 					
-					// when going horizontal and to the rigth 
-					if(this.getX() == to.getX() && this.getY() < to.getY()) {
-						int ypos = this.getY()+1; 
-						int jumpCounter = 0;
-						for(int i = 0; i< this.distanceTo(to)-1;i++) {
-							if(b.getPieceAt(makeCoordinate(this.getX(),ypos))!= null){
-								jumpCounter++;
-							}
-							else {
-								jumpCounter--;
-							}
-							if(jumpCounter > 1) {
-								return false;
-							}
-							ypos++;
+					if(Pieces) {
+						if(b.getPieceAt(makeCoordinate(this.getX(),ypos))!= null ) {
+							return false;
 						}
 					}
-					//when going horizontal and to the left
-					else if(this.getX() == to.getX() && this.getY()> to.getY()) {
-						int ypos = this.getY()-1;
-						int jumpCounter = 0;
-						for(int i = 0; i< this.distanceTo(to)-1;i++) {
-							
-							if(b.getPieceAt(makeCoordinate(this.getX(),ypos))!= null){
-								jumpCounter++;
-							}
-							else {
-								jumpCounter--;
-							}
-							if(jumpCounter >1) {
-								return false;
-							}
-							ypos--;
+					else if(Jump) {
+						if(b.getPieceAt(makeCoordinate(this.getX(),ypos))!= null){
+							jumpCounter++;
 						}
-					}
-					//when going vertical and up 
-					else if(this.getY() == to.getY() && this.getX() < to.getX()) {
-						int xpos = this.getX()+1;
-						int jumpCounter= 0;
-						for(int i = 0; i< this.distanceTo(to)-1;i++) {
-							if(b.getPieceAt(makeCoordinate(xpos,this.getY()))!= null){
-								jumpCounter++;
-							}
-							else {
-								jumpCounter--;
-							}
-							if(jumpCounter >1) {
-								return false;
-							}
-							xpos++;
+						else {
+							jumpCounter--;
 						}
-					}
-					//when going vertical and down 
-					else if(this.getY() == to.getY() && this.getX() > to.getX()) {
-						int xpos = this.getX()-1;
-						int jumpCounter = 0;
-						for(int i = 0; i< this.distanceTo(to)-1;i++) {
-							if(b.getPieceAt(makeCoordinate(xpos,this.getY()))!= null){
-								jumpCounter++;
-							}
-							else {
-								jumpCounter--;
-							}
-							if(jumpCounter >1) {
-								return false;
-							}
-							xpos--;
-						}
+						if(jumpCounter > 1) {
+							return false;
+						}	
 					}
 					
+					else {
+						if( (b.getLocationType(makeCoordinate(this.getX(), ypos)) == l)){
+						return false;
+						}
+					}
+					ypos++;
 				}
-				return true;
+				
+				
+			}
+			//when going horizontal and to the left
+			else if(this.getX() == to.getX() && this.getY()> to.getY()) {
+				int ypos = this.getY()-1;
+				int jumpCounter = 0;
+				for(int i = 0; i< this.distanceTo(to)-1;i++) {
+					if(Pieces) {
+						if(b.getPieceAt(makeCoordinate(this.getX(),ypos))!= null) {
+							return false;
+						}
+					}
+					else if(Jump) {
+						if(b.getPieceAt(makeCoordinate(this.getX(),ypos))!= null){
+							jumpCounter++;
+						}
+						else {
+							jumpCounter--;
+						}
+						if(jumpCounter > 1) {
+							return false;
+						}	
+					}
+					
+					else {
+						if((b.getLocationType(makeCoordinate(this.getX(), ypos)) == l)){
+							return false;
+						}
+					}
+					ypos--;
+				}
+			}
+			//when going vertical and up 
+			else if(this.getY() == to.getY() && this.getX() < to.getX()) {
+				int xpos = this.getX()+1;
+				int jumpCounter =0;
+				for(int i = 0; i< this.distanceTo(to)-1;i++) {
+					if(Pieces) {
+						if(b.getPieceAt(makeCoordinate(xpos,this.getY()))!= null) {
+							return false;
+						}
+					}
+					else if(Jump) {
+						if(b.getPieceAt(makeCoordinate(xpos,this.getY()))!= null){
+							jumpCounter++;
+						}
+						else {
+							jumpCounter--;
+						}
+						if(jumpCounter >1) {
+							return false;
+						}
+					}
+					else {
+						if((b.getLocationType(makeCoordinate(xpos,this.getY())) == l)){
+							return false;
+						}
+					}
+					xpos++;
+				}
+			}
+			//when going vertical and down 
+			else if(this.getY() == to.getY() && this.getX() > to.getX()) {
+				int xpos = this.getX()-1;
+				int jumpCounter = 0;
+				for(int i = 0; i< this.distanceTo(to)-1;i++) {
+					if(Pieces) {
+						if(b.getPieceAt(makeCoordinate(xpos,this.getY()))!= null) {
+							return false;
+						}
+					}
+					else if(Jump) {
+						if(b.getPieceAt(makeCoordinate(xpos,this.getY()))!= null){
+							jumpCounter++;
+						}
+						else {
+							jumpCounter--;
+						}
+						if(jumpCounter >1) {
+							return false;
+						}
+					}
+					else {
+						if((b.getLocationType(makeCoordinate(xpos,this.getY())) == l)){
+							return false;
+						}
+					}
+					xpos--;
+				}
+			}
+			
+		
+		return true;
 	}
 	/*
 	 * 
 	 * FOR ORTHOGONAL MOVEMENT
 	 * 
 	 */
+	
+	
 	/*
 	 * 
 	 * FOR DIAGONAL MOVEMENT
@@ -396,105 +271,45 @@ public class SquareCoordinate implements Coordinate
 	}
 	
 	/**
-	 * Check the diagonal betwen this and the given coordinate 
-	 * is empty
-	 * @param to end coordinate 
-	 * @param b a board 
-	 * @return true if the diagonal is clear false otherwise 
-	 */
-	public boolean diagonalIsClear(SquareCoordinate to,SquareBoard b) {
-		// make sure the path is a diagonal 
-		if(!this.sameDiagonal(to)) {
-			return false;
-		}
-		// check all four direction options
-
-		else {
-			
-			//when the destination Coordinate is larger both in X and Y
-			if(this.getX() < to.getX() && this.getY() < to.getY()) {
-				int xpos = this.getX()+1;
-				int ypos = this.getY()+1;
-				for(int i = 0;i < this.distanceTo(to)-1;i++) {
-					if(b.getPieceAt(makeCoordinate(xpos,ypos))!= null){
-						return false;
-					}
-					xpos++;
-					ypos++;
-			
-				}
-				
-			}
-			//when the destination Coordinate is larger in X and not in Y 
-			else if(this.getX() < to.getX() && this.getY() > to.getY()) {
-				int xpos = this.getX()+1;
-				int ypos = this.getY()-1;
-				for(int i = 0;i < this.distanceTo(to)-1;i++) {
-					if(b.getPieceAt(makeCoordinate(xpos,ypos))!= null){
-						return false;
-					}
-					xpos++;
-					ypos--;
-				}	
-			}
-			//when  both X and Y less in the destination Coordinate
-			else if(this.getX() > to.getX() && this.getY() > to.getY()) {
-				int xpos = this.getX()-1;
-				int ypos = this.getY()-1;
-				for(int i = 0;i < this.distanceTo(to)-1;i++) {
-					if(b.getPieceAt(makeCoordinate(xpos,ypos))!= null){
-						return false;
-					}
-					xpos--;
-					ypos--;
-				}	
-			}
-			//when the y is larger but the x is not on the destination Coordinate 
-			else if(this.getX() > to.getX() && this.getY() < to.getY()) {
-				int xpos = this.getX()-1;
-				int ypos = this.getY()+1;
-				for(int i = 0;i < this.distanceTo(to)-1;i++) {
-					if(b.getPieceAt(makeCoordinate(xpos,ypos))!= null){
-						return false;
-					}
-					xpos--;
-					ypos++;
-				}	
-			}	
-		}
-		
-		return true;
-	}
-	
-	/**
-	 * check if it is a jumpable path 
+	 * check that the diagonal path is Clear of pieces or given location type 
 	 * @param to
 	 * @param b
-	 * @return true when can jump that path 
+	 * @param l the locationType  to check for
+	 * @param Pieces true when looking for pieces on the way
+	 * @param Jump to see if wants to check for a jumpable path
+	 * @return true when is unblocked 
 	 */
-	public boolean isJumpableDiagonalPath(SquareCoordinate to,SquareBoard b) {
-		// make sure the path is a diagonal 
-		if(!this.sameDiagonal(to)) {
-			return false;
-		}
+	public boolean diagonalIsLocationClear(SquareCoordinate to,SquareBoard b,LocationType l,boolean Pieces,boolean Jump) {
+
 		// check all four direction options
 
-		else {
-			 
 			//when the destination Coordinate is larger both in X and Y
 			if(this.getX() < to.getX() && this.getY() < to.getY()) {
 				int xpos = this.getX()+1;
 				int ypos = this.getY()+1;
-				int jumpCounter = 0;
+				int jumpCounter =0;
 				for(int i = 0;i < this.distanceTo(to)-1;i++) {
-					if(b.getPieceAt(makeCoordinate(xpos,ypos))!= null){
-						jumpCounter++;
+					if(Pieces) {
+						if(b.getPieceAt(makeCoordinate(xpos,ypos))!= null) {
+							return false;
+						}
+					}
+					else if(Jump) {
+						if(b.getPieceAt(makeCoordinate(xpos,ypos))!= null){
+							jumpCounter++;
+						}
+						else {
+							jumpCounter--;
+						}
+						if(jumpCounter > 1) {
+							return false;
+						}
+						
 					}
 					else {
-						jumpCounter--;
-					}
-					if(jumpCounter > 1) {
-						return false;
+						if(b.getLocationType(makeCoordinate(xpos, ypos))== l){
+							return false;
+						}
 					}
 					xpos++;
 					ypos++;
@@ -505,36 +320,62 @@ public class SquareCoordinate implements Coordinate
 			//when the destination Coordinate is larger in X and not in Y 
 			else if(this.getX() < to.getX() && this.getY() > to.getY()) {
 				int xpos = this.getX()+1;
-				int ypos = this.getY()-1;
-				int jumpCounter = 0;
-				for(int i = 0;i < this.distanceTo(to)-1;i++) {
-					if(b.getPieceAt(makeCoordinate(xpos,ypos))!= null){
-						jumpCounter++;
-					}
-					else {
-						jumpCounter--;
-					}
-					if(jumpCounter > 1) {
-						return false;
-					}
-					xpos++;
-					ypos--;
-				}	
-			}
-			//when  both X and Y less in the destination Coordinate
-			else if(this.getX() > to.getX() && this.getY() > to.getY()) {
-				int xpos = this.getX()-1;
 				int ypos = this.getY()-1;
 				int jumpCounter =0;
 				for(int i = 0;i < this.distanceTo(to)-1;i++) {
-					if(b.getPieceAt(makeCoordinate(xpos,ypos))!= null){
-						jumpCounter++;
+					if(Pieces) {
+						if(b.getPieceAt(makeCoordinate(xpos,ypos))!= null) {
+							return false;
+						}
+					}
+					else if(Jump) {
+						if(b.getPieceAt(makeCoordinate(xpos,ypos))!= null){
+							jumpCounter++;
+						}
+						else {
+							jumpCounter--;
+						}
+						if(jumpCounter > 1) {
+							return false;
+						}
+						
 					}
 					else {
-						jumpCounter--;
+						if(b.getLocationType(makeCoordinate(xpos, ypos))== l){
+							return false;
+						}
 					}
-					if(jumpCounter > 1) {
-						return false;
+					xpos++;
+					ypos--;
+				}	
+			}
+			//when  both X and Y less in the destination Coordinate
+			else if(this.getX() > to.getX() && this.getY() > to.getY()) {
+				int xpos = this.getX()-1;
+				int ypos = this.getY()-1;
+				int jumpCounter = 0;
+				for(int i = 0;i < this.distanceTo(to)-1;i++) {
+					if(Pieces) {
+						if(b.getPieceAt(makeCoordinate(xpos,ypos))!= null) {
+							return false;
+						}
+					}
+					else if(Jump) {
+						if(b.getPieceAt(makeCoordinate(xpos,ypos))!= null){
+							jumpCounter++;
+						}
+						else {
+							jumpCounter--;
+						}
+						if(jumpCounter > 1) {
+							return false;
+						}
+						
+					}
+					else {
+						if(b.getLocationType(makeCoordinate(xpos, ypos))== l){
+							return false;
+						}
 					}
 					xpos--;
 					ypos--;
@@ -546,159 +387,33 @@ public class SquareCoordinate implements Coordinate
 				int ypos = this.getY()+1;
 				int jumpCounter = 0;
 				for(int i = 0;i < this.distanceTo(to)-1;i++) {
-					if(b.getPieceAt(makeCoordinate(xpos,ypos))!= null){
-						jumpCounter++;
+					if(Pieces) {
+						if(b.getPieceAt(makeCoordinate(xpos,ypos))!= null) {
+							return false;
+						}
+					}
+					else if(Jump) {
+						if(b.getPieceAt(makeCoordinate(xpos,ypos))!= null){
+							jumpCounter++;
+						}
+						else {
+							jumpCounter--;
+						}
+						if(jumpCounter > 1) {
+							return false;
+						}
+						
 					}
 					else {
-						jumpCounter--;
-					}
-					if(jumpCounter > 1) {
-						return false;
+						if(b.getLocationType(makeCoordinate(xpos, ypos))== l){
+							return false;
+						}
 					}
 					xpos--;
 					ypos++;
 				}	
 			}	
-		}
 		
-		return true;
-	}
-	
-	/**
-	 * check that the diagonal path is unblocked
-	 * @param to
-	 * @param b
-	 * @return true when is unlocked 
-	 */
-	public boolean diagonalIsUnblocked(SquareCoordinate to,SquareBoard b) {
-		// make sure the path is a diagonal 
-		if(!this.sameDiagonal(to)) {
-			return false;
-		}
-		// check all four direction options
-
-		else {
-			
-			//when the destination Coordinate is larger both in X and Y
-			if(this.getX() < to.getX() && this.getY() < to.getY()) {
-				int xpos = this.getX()+1;
-				int ypos = this.getY()+1;
-				for(int i = 0;i < this.distanceTo(to)-1;i++) {
-					if(b.getLocationType(makeCoordinate(xpos, ypos))== LocationType.BLOCK){
-						return false;
-					}
-					xpos++;
-					ypos++;
-			
-				}
-				
-			}
-			//when the destination Coordinate is larger in X and not in Y 
-			else if(this.getX() < to.getX() && this.getY() > to.getY()) {
-				int xpos = this.getX()+1;
-				int ypos = this.getY()-1;
-				for(int i = 0;i < this.distanceTo(to)-1;i++) {
-					if(b.getLocationType(makeCoordinate(xpos, ypos))== LocationType.BLOCK){
-						return false;
-					}
-					xpos++;
-					ypos--;
-				}	
-			}
-			//when  both X and Y less in the destination Coordinate
-			else if(this.getX() > to.getX() && this.getY() > to.getY()) {
-				int xpos = this.getX()-1;
-				int ypos = this.getY()-1;
-				for(int i = 0;i < this.distanceTo(to)-1;i++) {
-					if(b.getLocationType(makeCoordinate(xpos, ypos))== LocationType.BLOCK){
-						return false;
-					}
-					xpos--;
-					ypos--;
-				}	
-			}
-			//when the y is larger but the x is not on the destination Coordinate 
-			else if(this.getX() > to.getX() && this.getY() < to.getY()) {
-				int xpos = this.getX()-1;
-				int ypos = this.getY()+1;
-				for(int i = 0;i < this.distanceTo(to)-1;i++) {
-					if(b.getLocationType(makeCoordinate(xpos, ypos))== LocationType.BLOCK){
-						return false;
-					}
-					xpos--;
-					ypos++;
-				}	
-			}	
-		}
-		
-		return true;
-	}
-	/**
-	 * check that the diagonal path is unblocked
-	 * @param to
-	 * @param b
-	 * @return true when is unlocked 
-	 */
-	public boolean diagonalIsExitClear(SquareCoordinate to,SquareBoard b) {
-		// make sure the path is a diagonal 
-		if(!this.sameDiagonal(to)) {
-			return false;
-		}
-		// check all four direction options
-
-		else {
-			
-			//when the destination Coordinate is larger both in X and Y
-			if(this.getX() < to.getX() && this.getY() < to.getY()) {
-				int xpos = this.getX()+1;
-				int ypos = this.getY()+1;
-				for(int i = 0;i < this.distanceTo(to)-1;i++) {
-					if(b.getLocationType(makeCoordinate(xpos, ypos))== LocationType.EXIT){
-						return false;
-					}
-					xpos++;
-					ypos++;
-			
-				}
-				
-			}
-			//when the destination Coordinate is larger in X and not in Y 
-			else if(this.getX() < to.getX() && this.getY() > to.getY()) {
-				int xpos = this.getX()+1;
-				int ypos = this.getY()-1;
-				for(int i = 0;i < this.distanceTo(to)-1;i++) {
-					if(b.getLocationType(makeCoordinate(xpos, ypos))== LocationType.EXIT){
-						return false;
-					}
-					xpos++;
-					ypos--;
-				}	
-			}
-			//when  both X and Y less in the destination Coordinate
-			else if(this.getX() > to.getX() && this.getY() > to.getY()) {
-				int xpos = this.getX()-1;
-				int ypos = this.getY()-1;
-				for(int i = 0;i < this.distanceTo(to)-1;i++) {
-					if(b.getLocationType(makeCoordinate(xpos, ypos))== LocationType.EXIT){
-						return false;
-					}
-					xpos--;
-					ypos--;
-				}	
-			}
-			//when the y is larger but the x is not on the destination Coordinate 
-			else if(this.getX() > to.getX() && this.getY() < to.getY()) {
-				int xpos = this.getX()-1;
-				int ypos = this.getY()+1;
-				for(int i = 0;i < this.distanceTo(to)-1;i++) {
-					if(b.getLocationType(makeCoordinate(xpos, ypos))== LocationType.EXIT){
-						return false;
-					}
-					xpos--;
-					ypos++;
-				}	
-			}	
-		}
 		
 		return true;
 	}

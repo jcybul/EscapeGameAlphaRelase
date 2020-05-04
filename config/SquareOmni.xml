@@ -29,6 +29,12 @@
     	<player>PLAYER1</player>
     </locationInitializers>
     <locationInitializers>
+    	<x>14</x>
+    	<y>3</y>
+    	<pieceName>SNAIL</pieceName>
+    	<player>PLAYER1</player>
+    </locationInitializers>
+    <locationInitializers>
     	<x>17</x>
     	<y>14</y>
     	<pieceName>FROG</pieceName>
@@ -136,6 +142,12 @@
     	<pieceName>HORSE</pieceName>
     	<player>PLAYER1</player>
     </locationInitializers>
+    <locationInitializers>
+    	<x>7</x>
+    	<y>18</y>
+    	<pieceName>HORSE</pieceName>
+    	<player>PLAYER1</player>
+    </locationInitializers>
     <locationInitializers> <!-- An array of these, 0 or more -->
         <x>3</x>
         <y>4</y>
@@ -170,6 +182,36 @@
         <x>9</x>
         <y>5</y>
         <locationType>BLOCK</locationType>
+    </locationInitializers>
+    <locationInitializers>
+        <x>16</x>
+        <y>2</y>
+        <locationType>BLOCK</locationType>
+    </locationInitializers>
+    <locationInitializers>
+        <x>9</x>
+        <y>17</y>
+        <locationType>BLOCK</locationType>
+    </locationInitializers>
+    <locationInitializers>
+        <x>9</x>
+        <y>19</y>
+        <locationType>BLOCK</locationType>
+    </locationInitializers>
+    <locationInitializers>
+        <x>8</x>
+        <y>17</y>
+        <locationType>BLOCK</locationType>
+    </locationInitializers>
+    <locationInitializers>
+        <x>8</x>
+        <y>19</y>
+        <locationType>BLOCK</locationType>
+    </locationInitializers>
+    <locationInitializers>
+        <x>8</x>
+        <y>18</y>
+        <locationType>EXIT</locationType>
     </locationInitializers>
     <locationInitializers>
         <x>9</x>
@@ -312,7 +354,7 @@
         <attributes>
             <id>DISTANCE</id>
             <attrType>INTEGER</attrType>
-            <intValue>5</intValue>
+            <intValue>4</intValue>
         </attributes>
         <attributes>
             <id>JUMP</id>

@@ -50,6 +50,9 @@ public class SquareGame implements EscapeGameManager<SquareCoordinate>
 		ArrayList<Rules> list = rules.squareMovePattern.get(pattern);
 		for(Rules r: list) {
 			if(r.TestRule(from, to, this)) {
+				if( b.getPieceAt(to) != null && b.getPieceAt(from).getPlayer() == b.getPieceAt(to).getPlayer()) {
+					return false;
+				}
 				EscapePiece temp = b.getPieceAt(from);
 				b.putPieceAt(temp,to);
 				b.removePieceFrom(from);

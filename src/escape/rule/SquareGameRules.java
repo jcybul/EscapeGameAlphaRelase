@@ -50,18 +50,17 @@ public class SquareGameRules
 	 */
 	// we need to check if the path is diagonal or orthogonal and if there are pieces if it can jump
 	// and if there are any blocked locations in the path and it can unblock
-	static Rules isLinear = (from,to,g)-> g.PieceTypes.get(g.b.getPieceAt(from).getName()).getMovementPattern() == MovementPatternID.LINEAR;
 	static Rules LinearDiagonal = (from,to,g)-> 
 	//the path is diagonal 
 	from.sameDiagonal(to) &&
 	//the distance is inside what is allowed
 	getDistance.TestRule(from, to, g) && 
 	//the path is clear from pieces or (it can jump there is a jumpable path) or can fly 
-	(from.diagonalIsClear(to, (SquareBoard)g.b) || (canJump.TestRule(from, to, g) && from.isJumpableDiagonalPath(to, (SquareBoard)g.b)) || canFly.TestRule(from, to, g)) &&
+	(from.diagonalIsLocationClear(to, (SquareBoard)g.b,null,true,false) || (canJump.TestRule(from, to, g) && from.diagonalIsLocationClear(to, (SquareBoard)g.b,null,false,true)) || canFly.TestRule(from, to, g)) &&
 	// check that a location that path is unblocked and or it can unblock or it can fly 
-	(from.diagonalIsUnblocked(to, (SquareBoard)g.b) || canUnblock.TestRule(from, to, g) || canFly.TestRule(from, to, g)) &&
+	(from.diagonalIsLocationClear(to, (SquareBoard)g.b,LocationType.BLOCK,false,false) || canUnblock.TestRule(from, to, g) || canFly.TestRule(from, to, g)) &&
 	//clear from exits or fly
-	(from.diagonalIsExitClear(to,(SquareBoard)g.b) || canFly.TestRule(from, to, g)) &&
+	(from.diagonalIsLocationClear(to,(SquareBoard)g.b,LocationType.EXIT,false,false) || canFly.TestRule(from, to, g)) &&
 	// landing is not blocked
 	((SquareBoard)g.b).getLocationType(to) != LocationType.BLOCK;
 	
@@ -71,11 +70,11 @@ public class SquareGameRules
 	// the distance is allowed flying or normal moving
 	getDistance.TestRule(from, to, g) &&
 	// the path is clear from pieces  or (it can jump and there is a jumpable path) or can fly
-	(from.orthagonalIsClear(to, (SquareBoard)g.b) || (canJump.TestRule(from, to, g) && from.isJumpableOrthoPath(to,(SquareBoard)g.b) || canFly.TestRule(from, to, g))) &&
+	(from.orthagonalILocationClear(to, (SquareBoard)g.b,null,true,false) || (canJump.TestRule(from, to, g) && from.orthagonalILocationClear(to, (SquareBoard)g.b,null,false,true) || canFly.TestRule(from, to, g))) &&
 	// check that a location that path is unblocked and or it can unblock or it can fly 
-	(from.orthagonalIsUnblocked(to,(SquareBoard)g.b) || canUnblock.TestRule(from, to, g) || canFly.TestRule(from, to, g)) &&
+	(from.orthagonalILocationClear(to,(SquareBoard)g.b,LocationType.BLOCK,false,false) || canUnblock.TestRule(from, to, g) || canFly.TestRule(from, to, g)) &&
 	//clear from exits or fly
-	(from.orthagonalIsExitClear(to,(SquareBoard)g.b) || canFly.TestRule(from, to, g)) &&
+	(from.orthagonalILocationClear(to,(SquareBoard)g.b,LocationType.EXIT,false,false) || canFly.TestRule(from, to, g)) &&
 	//landing position is not blocked
 	((SquareBoard)g.b).getLocationType(to) != LocationType.BLOCK;
 	

@@ -3,230 +3,296 @@ initilize a board from file with the given pieces set correctly
 
 
 
+		
 
-1. have a piece move a distance larger than it is allowed:
 		
-Linear movement test:
+SQUAREBOARD BOARD/GAME TEST:
+	
+	1.
+	
+	Linear Movement Pattern:
+	
+			move Linear manner to any direction:
+			diagonal:   frog(5,5)->(2,2)    True
+			orthogonal: frog(5,5)->(5,1)    True
+			random:     frog(5,5)->(8,3)    False
 		
-	SquareBoard:
+			Distance more than allowed
+			frog(5,5)->(5,11) allowed 5 current 6   False
+		
+
+		
+			Jump over one piece 
+			frog(5,5)->(2,5) piece at 3,5   	    True
+			
+			jump over to pieces 
+			frog(3,5)->(3,2) two pieces in between  False
+			
+			fly over two pieces
+			horse(7,4)->(7,1) two pieces in between True 
+			
+			blocked test 
+			
+			piece that has unblock capabilities 
+			fox(1,5)->(1,2) block at (1,4)  true
+			
+			fly over blocked positon 
+			horse(4,8)->(1,8) block at 3,8 true 
+			
+			land on block space                        
+			horse(4,8)->(3,8)						false
+			
+			Jump over one piece
+			frog(5,3)->(3,1) piece at 4,2              true 
+			
+			jump over two pieces
+			frog(5,8)->(2,5) two pieces in between     False
+			 
+			fly over two pieces
+			horse(8,7)->(11,4) two pieces in between   true
+			
+			piece that has unblock capabilities
+			fox(8,2)->(10,4) block at (9,3)            true 
+		
+			fly over Blocked postion
+			horse(10,6)->(13,9) block at(12,)      true 
+		
+	Diagonal movement pattern:
 	
-	move Linear manner to any direction:
-	diagonal:   frog(5,5)->(2,2)    True
-	orthogonal: frog(5,5)->(5,1)    True
-	random:     frog(5,5)->(8,3)    False
 	
-	Distance more than allowed
-	frog(5,5)->(5,11) allowed 5 current 6   False
-	
-	Landing on a Blocked postion
-	
-	ORTHO
-	
+		2. diagonal linear 
+			move in clear diagonal all for directions:
+			frog(5,5)->(7,3)   true 
+			frog(5,5)->(3,3)   true
+			frog(5,5)->(3,7)   true 
+			frog(5,5)->(7,7)   true 
+			
+			none diagonal way:
+			(7,8)->(4,9) false
+			
+			jump over one piece in each direction 
+			frog(10,5)->(12,7)   true 
+			frog(10,5)->(12,3)   true 
+			frog(10,5)->(8,7)   true 
+			frog(10,5)->(8,3)   true 
+			
+			jump over two pieces 
+			frog(2,1)->(5,4) two pieces in between   false
+			
+			fly over two pieces
+			Horse(5,6)->(8,9)               true 
+			
+			Piece that has unblock capabilities
+			fox(3,5)->(1,7) block ar 2,6    true 
+			
+			Fly over Blocked Position
+			(10,9)->(12,11)  block at 11,1 true 
+			
+			Jump over to none consecutive pieces 
+			(13,8)->(18,13) pieces at (15,1) and (17,12) true 
+			
+			land on blocked positon 
+			(17,5)->(18,6)    false 
+			
+			jump over one piece then change direction
+			(9,15)->(12,14) block at (10,16) piece at (10,14) true 
+			
+			distance more than allowed
+			(4,14)->(9,19) false 
+			
+			attempt to pass over an exit jumping
+			(14,15)->(16,17) exit at 15,16   false 
+			
+			fly over exit
+			(14,5)->(16,7) exit at (15,6) true 
+			
+			land on exit 
+			(6,11)->(5,10) true 
+			
+			atack enemy 
+			(8,12)->(7,13)    true 
+			
+			atack ally
+			(18,10)->(19,11)  false 
+			
+			jump over piece to capture
+			(2,15)->(4,17) piece at 3,16 true 
+						
+			
+	Ortho movement pattern: 
+		
+		path find ortho:
+		(6,7)->(8,5)   true block at 7,7 and 7,6
+		
+		Cant unblock go trourgh block 
+		(12,2)->(12,4) block at 11,3 and  12,3 and 13,3 false 
+		
+		land on blocked position 
+		(15,6)->(17,6) to blocked   false 
+		
+		distance more than allowed:
+		(14,3)->(20,3)     false max distance 5
+		
+		Fly over two pieces
+		(14,13)->(11,13) pieces at 13,13 and 12,13
+		
+		Jump over two pieces:
+		(14,15)->(14,18)   piece at 14,16 and 14,17 false 
+		
+		attempt to jump over exit 
+		(17,14)->(19->14)   exit at (18,14)   false 
+		
+		fly over exit
+		(6,14)->(6,16) exit at 6,15
+		
+		Land on an exit:
+		(9,17)->(10,17) true exit at end
+		
+		Atack an enemy piece
+		(3,3)->(3,4) true enemy piece at end 
+		
+		Attack ally Piece
+		(1,4)->(2,4) piece at end 
+		
+		Jump over once piece to capture 
+		(3,13)->(3,15) piece at 3,12 enemy at end 
+		
+		diagonal square
+		(4,18)->(3,19)   false 
+		
 		Jump over one piece 
-		frog(5,5)->(2,5) piece at 3,5   	    True
+		(7,20)->(9,20) piece at 8,20
 		
-		jump over to pieces 
-		frog(3,5)->(3,2) two pieces in between  False
-		
-		fly over two pieces
-		horse(7,4)->(7,1) two pieces in between True 
-		
-		blocked test 
-		
-		piece that has unblock capabilities 
-		fox(1,5)->(1,2) block at (1,4)  true
-		
-		fly over blocked positon 
-		horse(4,8)->(1,8) block at 3,8 true 
-		
-		land on block space                        
-		horse(4,8)->(3,8)						false
-
-	DIOGANAL:
-		
-		Jump over one piece
-		frog(5,3)->(3,1) piece at 4,2              true 
-		
-		jump over two pieces
-		frog(5,8)->(2,5) two pieces in between     False
-		 
-		fly over two pieces
-		horse(8,7)->(11,4) two pieces in between   true
-		
-		piece that has unblock capabilities
-		fox(8,2)->(10,4) block at (9,3)            true 
+		Jump over two none consecutive pieces:
+		(4,11)->(8,11)  pieces at 5,11 and 7,11
+			
+				
 	
-		fly over Blocked postion
-		horse(10,6)->(13,9) block at(12,)      true 
+	Omni movemet pattern:
 	
-Diagonal movement pattern:
-
-
-	diagonal linear 
-		move in clear diagonal all for directions:
-		frog(5,5)->(7,3)   true 
-		frog(5,5)->(3,3)   true
-		frog(5,5)->(3,7)   true 
-		frog(5,5)->(7,7)   true 
+		path finding test:
+		Piece at (2,8)-> (5,8) true in 4 moves no flying no unblocking
+		three blocks in the way at 
+		(3,8),(4,8),(4,7)
 		
-		none diagonal way:
-		(7,8)->(4,9) false
+		unblock path find 
+		(3,16)->(5,16) block at 4,15 and 4,16 and 4,17 
 		
-		jump over one piece in each direction 
-		frog(10,5)->(12,7)   true 
-		frog(10,5)->(12,3)   true 
-		frog(10,5)->(8,7)   true 
-		frog(10,5)->(8,3)   true 
+		land on a block positon 
+		(14,3)->(16,2) block at end 
 		
-		jump over two pieces 
-		frog(2,1)->(5,4) two pieces in between   false
+		No path because is surrounded by blocks 
+		pieces at (17,14)     false 
 		
-		fly over two pieces
-		Horse(5,6)->(8,9)               true 
+		No Path distance more than allowed 
+		Piece at (11,6)->(16,6)
 		
-		Piece that has unblock capabilities
-		fox(3,5)->(1,7) block ar 2,6    true 
+		Jump outside a box of pieces
+		piece at(11,14)->(11,12) surrounded by 8 pieces true 
 		
-		Fly over Blocked Position
-		(10,9)->(12,11)  block at 11,1 true 
+		jump two none consecutive pieces
+		block at to prevent other paths (3,1)(3,3)
+		(2,2)->(6,2)  pieces at (3,2) and (5,2)   true 
 		
-		Jump over to none consecutive pieces 
-		(13,8)->(18,13) pieces at (15,1) and (17,12)
-	diagonal linear 
-	
-	diagonal with direction changes:
-	
-	jump over one piece then change direction
-	(9,15)->(12,14) block at (10,16) piece at (10,14)
-	
-	
-	
+		jump over two consectuive pieces 
+		block at (4,11) and (4,13) 
+		(3,12)->(7,12) pieces at (4,12) and (5,12)false 
 		
+		Fly over two pieces
+		(8,7)->(8,4)      true 
 		
-Ortho movement pattern: 
-	
-	path find ortho
+		Attempt to jump over pieces:
+		(7,18)->(9,18) blocks at (8,17)(8,19)(9,17)(9,19)
+		exit at (8,18)
+		
 		
 		
 			
 
-Omni movemet pattern:
+ORTHO BOARD/GAME TEST:
 
-	path finding test:
-	Piece at (2,8)-> (5,8) true in 4 moves no flying no unblocking
-	three blocks in the way at 
-	(3,8),(4,8),(4,7)
+	omni/ortho:
 	
-	
-	unblock path find 
-	(3,16)->(5,16) block at 4,15 and 4,16 and 4,17 
-	
-	No path because is surrounded by blocks 
-	pieces at (17,14)     false 
-	
-	No Path distance more than allowed 
-	Piece at (11,6)->(16,6)
-	
-	Jump outside a box of pieces
-	piece at(11,14)->(11,12) surrounded by 8 pieces true 
-	
-	jump two none consecutive pieces
-	block at to prevent other paths (3,1)(3,3)
-	(2,2)->(6,2)  pieces at (3,2) and (5,2)   true 
-	
-	jump over two consectuive pieces 
-	block at (4,11) and (4,13) 
-	(3,12)->(7,12) pieces at (4,12) and (5,12)false 
-	
-	Fly over two pieces
-	(8,7)->(8,4)      true 
-	
+		pathFind test:
+		(3,17)->(6,15)  three blocks to shape the path 
+		(3,15),(4,17),(5,16)
 		
-
-ORTHO BOARD TEST 
-
-omni/ortho:
-
-	pathFind test:
-	(3,17)->(6,15)  three blocks to shape the path 
-	(3,15),(4,17),(5,16)
+		unblock a path 
+		(4,6)->(6,6) block at 5,5 and 5,6 and 5,7 true 
+		
+		land on block postion false 
+		(10,9)->(12,8)       false 
+		
+		distance more than allowed 
+		max distance is 5 move 6 
+		(8,14)->14,14) false 
+		
+		Fly over two pieces 
+		(15,4)->(18,4) pieces at 16,4 and 17,4 true 
+		
+		jump over two non conescutive pieces 
+		(15,1)->(17,8)  pieces at (15,9) and (16,8) block at 17,8 true
+		
+		cant go over an exit even if it can jump
+		(9,18)->(11,18) exit at (10,18)
+		
+		fly over exit
+		(3,1)->(5,1) exit at (4,1)
+		
+		jump two pieces to land on a pieces that is an enemy piece 
+		(5,3)->(8,3) piece at 8,3 and 7,3  true 
+		
+		land on an exit
+		(16,16)->(18,17) true
+		
+		attack an enemy  true 
+		(7,10)->(7,11)
+		
+		attack an allay  false
+		(8,10)->(8,11) 
+		
+	Linear:
 	
-	unblock a path 
-	(4,6)->(6,6) block at 5,5 and 5,6 and 5,7 true 
-	
-	land on block postion false 
-	(10,9)->(12,8)       false 
-	
-	distance more than allowed 
-	max distance is 5 move 6 
-	(8,14)->14,14) false 
-	
-	Fly over two pieces 
-	(15,4)->(18,4) pieces at 16,4 and 17,4 true 
-	
-	jump over two non conescutive pieces 
-	(15,1)->(17,8)  pieces at (15,9) and (16,8) block at 17,8 true
-	
-	cant go over an exit even if it can jump
-	(9,18)->(11,18) exit at (10,18)
-	
-	fly over exit
-	(3,1)->(5,1) exit at (4,1)
-	
-	jump two pieces to land on a pieces that is an enemy piece 
-	(5,3)->(8,3) piece at 8,3 and 7,3  true 
-	
-	land on an exit
-	(16,16)->(18,17) true
-	
-	attack an enemy  true 
-	(7,10)->(7,11)
-	
-	attack an allay  false
-	(8,10)->(8,11) 
-	
-Linear:
-
-	PathFind using linear 
-	all four directions 
-	(11,6)->(13,6)
-	(11,6)->(11,8)
-	(11,6)->(11,4)
-	(11,6)->(9,6) all true
-	
-	unblock a path 
-	(12,15)->(14,15) block at (13,15)(13,14)(13,16) true 
-	
-	land on a block postion
-	(5,14)->(5,16) block at 5,16 false 
-	
-	distance more than allowed
-	(14,3)->(20,3) maxdist 5 false 
-	
-	fly over two pieces
-	(17,13)->(17,16) blocks at 18,14 and 16,14
-	pieces at 17,14 and 17,15 true 
-	
-	jump over two non consecutive pieces
-	(3,3)->(7,3) pieces at 4,3 and 6,3  true 
-	
-	pass over exit can jump 
-	(9,15)->(9,17) exit at 9,16 false 
-	
-	fly over an exit
-	(3,14)->(3,16) exit at 3,15 true 
-	
-	land on an exit
-	(16,6)->(16,7) exit at 16,7 true 
-	
-	atack an enemy piece 
-	(7,7)->(7,8) enemy at 7,8 true 
-	
-	atack a none enemy piece 
-	(6,7)->(6,8)  ally at 6,8 true 
-	
-	jump over a piece to capture
-	(7,13)->(7,15) piece at (7,13) true 
-	
+		PathFind using linear 
+		all four directions 
+		(11,6)->(13,6)
+		(11,6)->(11,8)
+		(11,6)->(11,4)
+		(11,6)->(9,6) all true
+		
+		unblock a path 
+		(12,15)->(14,15) block at (13,15)(13,14)(13,16) true 
+		
+		land on a block postion
+		(5,14)->(5,16) block at 5,16 false 
+		
+		distance more than allowed
+		(14,3)->(20,3) maxdist 5 false 
+		
+		fly over two pieces
+		(17,13)->(17,16) blocks at 18,14 and 16,14
+		pieces at 17,14 and 17,15 true 
+		
+		jump over two non consecutive pieces
+		(3,3)->(7,3) pieces at 4,3 and 6,3  true 
+		
+		pass over exit can jump 
+		(9,15)->(9,17) exit at 9,16 false 
+		
+		fly over an exit
+		(3,14)->(3,16) exit at 3,15 true 
+		
+		land on an exit
+		(16,6)->(16,7) exit at 16,7 true 
+		
+		atack an enemy piece 
+		(7,7)->(7,8) enemy at 7,8 true 
+		
+		atack a none enemy piece 
+		(6,7)->(6,8)  ally at 6,8 true 
+		
+		jump over a piece to capture
+		(7,13)->(7,15) piece at (7,13) true 
+		
 	
 		
