@@ -11,19 +11,27 @@ SQUAREBOARD BOARD/GAME TEST:
 	1.
 	
 	Linear Movement Pattern:
-	
+			
+			
+
 			move Linear manner to any direction:
 			diagonal:   frog(5,5)->(2,2)    True
 			orthogonal: frog(5,5)->(5,1)    True
 			random:     frog(5,5)->(8,3)    False
 		
 			Distance more than allowed
-			frog(5,5)->(5,11) allowed 5 current 6   False
+			frog(5,12)->(5,18) allowed 5 current 6   False
 		
-
-		
-			Jump over one piece 
+			Jump over one piece, and surrounded by 8 pieces
 			frog(5,5)->(2,5) piece at 3,5   	    True
+			frog(17,8)->(19,8)  
+			frog(17,8)->(19,10)  
+			frog(17,8)->(19,6)  
+			frog(17,8)->(17,6)  
+			frog(17,8)->(17,10)  
+			frog(17,8)->(15,6)  
+			frog(17,8)->(15,8)  
+			frog(17,8)->(15,10)     all true 
 			
 			jump over to pieces 
 			frog(3,5)->(3,2) two pieces in between  False
@@ -57,10 +65,30 @@ SQUAREBOARD BOARD/GAME TEST:
 			fly over Blocked postion
 			horse(10,6)->(13,9) block at(12,)      true 
 		
+			jump over an exit 
+			frog(15,14)->(15,16) exit at 15,15
+			
+			fly over an exit
+			horse(13,16)->(11,18)  exit at 12,17
+			
+			land on exit 
+			(15,2)->(16,2)   exit at end true 
+			
+			attack an ally
+			(17,16)->(17,17) ally at end 
+			
+			attack an enemy 
+			(18,15)->(19,16)
+			
+			jump two none consecutive pieces
+			(3,13)->(3,17)  pieces at 3,14 and 3,16
+			
+			jump piece to capture
+			(7,16)->(9,18)  pieces at (8,17)
+
+
 	Diagonal movement pattern:
 	
-	
-		2. diagonal linear 
 			move in clear diagonal all for directions:
 			frog(5,5)->(7,3)   true 
 			frog(5,5)->(3,3)   true
@@ -117,6 +145,11 @@ SQUAREBOARD BOARD/GAME TEST:
 			
 			jump over piece to capture
 			(2,15)->(4,17) piece at 3,16 true 
+			
+			weird jump change dir tst 
+			(2,10)->(12,2) piece at 9,11
+			block at 1,11
+			
 						
 			
 	Ortho movement pattern: 
@@ -165,7 +198,9 @@ SQUAREBOARD BOARD/GAME TEST:
 		
 		Jump over two none consecutive pieces:
 		(4,11)->(8,11)  pieces at 5,11 and 7,11
-			
+		
+		Jump edge case for ortho
+		(10,8)->(11,7)   false 
 				
 	
 	Omni movemet pattern:
@@ -201,11 +236,27 @@ SQUAREBOARD BOARD/GAME TEST:
 		Fly over two pieces
 		(8,7)->(8,4)      true 
 		
-		Attempt to jump over pieces:
+		Attempt to jump over exit:
 		(7,18)->(9,18) blocks at (8,17)(8,19)(9,17)(9,19)
 		exit at (8,18)
 		
+		Fly over an exit: 
+		(14,13)->(14,15) exit at (14,14)   true  
 		
+		Land on an exit
+		(17,7)->(18,8) true exit at end 
+		
+		Attack an enemy
+		(13,19)->(14,19)   true enemy at end 
+		
+		Attack an ally
+		(14,18)->(13,18)  false ally at end 
+		
+		Jump over a Piece to capture
+		(2,15)->(2,17) true piece at end and 2,16
+		
+		Jump change dir 
+		(16,10)->(12,18)   false 
 		
 			
 
@@ -251,6 +302,18 @@ ORTHO BOARD/GAME TEST:
 		attack an allay  false
 		(8,10)->(8,11) 
 		
+		random(diagonal) movement 
+		(10,5)->(11,4)   false 
+		
+		jump over one piece
+		(19,11)->(19,13)  piece at 19,12
+		
+		jump two none consecutive pieces
+		(12,1)->(16,1) pieces ar 13,1 and 15,1 
+		
+		weird Jump edge case
+		(13,18)->(14,17) and piece at 14,18 blocka at 17,17
+		
 	Linear:
 	
 		PathFind using linear 
@@ -294,5 +357,82 @@ ORTHO BOARD/GAME TEST:
 		jump over a piece to capture
 		(7,13)->(7,15) piece at (7,13) true 
 		
-	
+		Jump over two pieces
+		(2,5)->(2,8) pieces at 2,6 and 2,7 false
 		
+		random unreachable (diagonal) 
+		(10,12)->(11,13)  false 
+		
+		jump one piece all directions
+		(14,10)->(16,10)
+		(14,10)->(14,12)
+		(14,10)->(14,8)
+		(14,10)->(12,10)
+
+		
+HEX BOARD/GAME TEST:
+
+	Omni:
+		
+		Path find:
+		(1,-4)->(4,-6)   true 
+		
+		Can't unbluck so no path 
+		(-3,-1)->(-5,-1) block at -3,-2 and -4,-1 and -4,0
+
+		land on a blocked postion:
+		(-2,-3)->(-2,-4)   false block at end
+		
+		Distance more than allowed:
+		(-5,6)->(0,5)   false 
+		
+		Fly over two pieces:
+		(-3,5)->(0,3) pieces at -2,5 and -1,4
+		
+		Jump over two pieces false
+		(4,0)->(4,-3) pieces at (4,-1) and (4,-2) 
+		
+		cant go over exit by jumping 
+		(2,0)->(2,-2)    exit at 2,-1 false 
+		
+		Fly over Exit true 
+		(1,0)->(3,-2)   exit at 2,-1
+		
+		land on exit true :
+		(-5,3)->(-6,2) exit at end 
+		
+		attack enemy: true 
+		(3,3)->(4,2) 
+	
+		attack ally:
+		(2,4)->(2,3)  false 
+		
+		jump over piece and attack:
+		(-5,5)->(-3,3)   -4,4 piece true 
+		
+		jump one piece:
+		(-2,3)->(-2,1)   true 
+	
+		jump over none consecutive pieces:
+		(-2,0)->(2,-4)  true 
+		
+		
+		
+	Linear:
+	
+	
+XML exceptions:
+
+both fly and distance
+no fly or distance
+no piece types 
+
+		
+		
+		
+
+
+
+
+
+

@@ -92,9 +92,7 @@ public class SquareBoardAStar
             this.now = this.now.parent;
             this.path.add(0, this.now);
         }
-        if(constectuivePieces(this.path) && !PieceTypeInitializer.canFly(p)) {
-        	return null;
-        }
+
 
         return this.path;
     }
@@ -124,9 +122,6 @@ public class SquareBoardAStar
          while (this.now.x != this.xstart || this.now.y != this.ystart) {
              this.now = this.now.parent;
              this.path.add(0, this.now);
-         }
-         if(constectuivePieces(this.path) && !PieceTypeInitializer.canFly(p)){
-         	return null;
          }
  
          return this.path;
@@ -159,9 +154,7 @@ public class SquareBoardAStar
               this.now = this.now.parent;
               this.path.add(0, this.now);
           }
-          if(constectuivePieces(this.path) && !PieceTypeInitializer.canFly(p) ){
-          	return null;
-          }
+        
 
           return this.path;
       }
@@ -173,6 +166,8 @@ public class SquareBoardAStar
     private static boolean findNeighborInList(ArrayList<Node> array, Node node) {
         return array.stream().anyMatch((n) -> (n.x == node.x && n.y == node.y));
     }
+    
+    
     /*
     ** Calulate distance between this.now and xend/yend
     **
@@ -187,28 +182,50 @@ public class SquareBoardAStar
         for (int x = -1; x <= 1; x++) {
             for (int y = -1; y <= 1; y++) {
                 node = new Node(this.now, SquareCoordinate.makeCoordinate(this.now.x + x, this.now.y + y), this.now.g,(double)SquareCoordinate.makeCoordinate(now.x, now.y).distanceTo(SquareCoordinate.makeCoordinate(x, y)));
-                if ((x != 0 || y != 0) // not this.now
+                if ((x != 0 || y != 0) // not this.now	
                     && this.now.x + x >= 1 && this.now.x + x < b.getXMax() // check maze boundaries
                     && this.now.y + y >= 1 && this.now.y + y < b.getYMax()
-                    && 
+            		&& 
                     (
                     //check location is not  blocked or can fly or can unlblock
                     b.getLocationType(SquareCoordinate.makeCoordinate(this.now.x + x, this.now.y + y)) != LocationType.BLOCK ||
                     PieceTypeInitializer.canUnblock(p) ||
                     PieceTypeInitializer.canFly(p) 
                     )
+                  //check location is not exit or is the end
+                    &&  (b.getLocationType(SquareCoordinate.makeCoordinate(this.now.x + x, this.now.y + y)) != LocationType.EXIT || PieceTypeInitializer.canFly(p)|| SquareCoordinate.makeCoordinate(xend, yend).equals(SquareCoordinate.makeCoordinate(this.now.x + x, this.now.y + y)))
+                  // check next position is empty or it can fly 
                     &&
                     (
-                    //location it wants to go to is empty 
-                    b.getPieceAt(SquareCoordinate.makeCoordinate(this.now.x + x, this.now.y + y)) == null ||
-                    // can jump or the location it comes from is empty ot itself 
-                    PieceTypeInitializer.canJump(p)
+                    		(
+                                    ((b.getPieceAt(SquareCoordinate.makeCoordinate(this.now.x , this.now.y)))  == null || now.x == xstart && now.y == ystart)
+                                    ||
+                                    PieceTypeInitializer.canJump(p) && (
+                                    		(b.getPieceAt(SquareCoordinate.makeCoordinate(this.now.x+x,this.now.y+y))) == null && (this.now.parent == null || SquareCoordinate.makeCoordinate(this.now.parent.x,this.now.parent.y).sameOrthogonal(SquareCoordinate.makeCoordinate(node.x, node.y)))
+                                    		||
+                                    		(b.getPieceAt(SquareCoordinate.makeCoordinate(now.x, now.y)) == null && ( (node.x != xend && node.y != yend) || (SquareCoordinate.makeCoordinate(xend, yend).equals(SquareCoordinate.makeCoordinate(this.now.x + x, this.now.y + y)) && b.getPieceAt(SquareCoordinate.makeCoordinate(xend, yend)).getPlayer() != b.getPieceAt(SquareCoordinate.makeCoordinate(xstart, ystart)).getPlayer())))
+                                    		)	
+                                    ||
+                                    // it can fly
+                                    PieceTypeInitializer.canFly(p) 
+                                    || ((node.x == xend && node.y == yend) && (b.getPieceAt(SquareCoordinate.makeCoordinate(xend, yend)) != null) &&(SquareCoordinate.makeCoordinate(xend, yend).equals(SquareCoordinate.makeCoordinate(this.now.x + x, this.now.y + y)) && b.getPieceAt(SquareCoordinate.makeCoordinate(xend, yend)).getPlayer() != b.getPieceAt(SquareCoordinate.makeCoordinate(xstart, ystart)).getPlayer()))
+                                    )
+                    
                     ||
-                    PieceTypeInitializer.canFly(p)
-                    || (SquareCoordinate.makeCoordinate(xend, yend).equals(SquareCoordinate.makeCoordinate(this.now.x + x, this.now.y + y)) && b.getPieceAt(SquareCoordinate.makeCoordinate(xend, yend)).getPlayer() != b.getPieceAt(SquareCoordinate.makeCoordinate(xstart, ystart)).getPlayer())
-                	)
-                    && // location is an exit unless is last one 
-                    (b.getLocationType(SquareCoordinate.makeCoordinate(this.now.x + x, this.now.y + y)) != LocationType.EXIT || PieceTypeInitializer.canFly(p)|| SquareCoordinate.makeCoordinate(xend, yend).equals(SquareCoordinate.makeCoordinate(this.now.x + x, this.now.y + y)))
+                    (
+                            ((b.getPieceAt(SquareCoordinate.makeCoordinate(this.now.x , this.now.y)))  == null || now.x == xstart && now.y == ystart)
+                            ||
+                            PieceTypeInitializer.canJump(p) && (
+                            		(b.getPieceAt(SquareCoordinate.makeCoordinate(this.now.x+x,this.now.y+y))) == null && (this.now.parent == null || SquareCoordinate.makeCoordinate(this.now.parent.x,this.now.parent.y).sameDiagonal(SquareCoordinate.makeCoordinate(node.x, node.y)))
+                            		||
+                            		(b.getPieceAt(SquareCoordinate.makeCoordinate(now.x, now.y)) == null && ( (node.x != xend && node.y != yend) || (SquareCoordinate.makeCoordinate(xend, yend).equals(SquareCoordinate.makeCoordinate(this.now.x + x, this.now.y + y)) && b.getPieceAt(SquareCoordinate.makeCoordinate(xend, yend)).getPlayer() != b.getPieceAt(SquareCoordinate.makeCoordinate(xstart, ystart)).getPlayer())))
+                            		)	
+                            ||
+                            // it can fly
+                            PieceTypeInitializer.canFly(p) 
+                            || ((node.x == xend && node.y == yend) && (b.getPieceAt(SquareCoordinate.makeCoordinate(xend, yend)) != null) &&(SquareCoordinate.makeCoordinate(xend, yend).equals(SquareCoordinate.makeCoordinate(this.now.x + x, this.now.y + y)) && b.getPieceAt(SquareCoordinate.makeCoordinate(xend, yend)).getPlayer() != b.getPieceAt(SquareCoordinate.makeCoordinate(xstart, ystart)).getPlayer()))
+                            )
+                    )
                     && SquareCoordinate.makeCoordinate(node.x, node.y).distanceTo(SquareCoordinate.makeCoordinate(now.x,now.y)) <= PieceTypeInitializer.getMaxDistance(p)
                     && !findNeighborInList(this.open, node) && !findNeighborInList(this.closed, node)) { // if not already done
                         node.g = node.parent.g + 1; // Horizontal/vertical cost = 1.0
@@ -240,17 +257,26 @@ public class SquareBoardAStar
                     PieceTypeInitializer.canUnblock(p) ||
                     PieceTypeInitializer.canFly(p) 
                     )
+                  //check location is not exit or is the end
+                    &&  (b.getLocationType(SquareCoordinate.makeCoordinate(this.now.x + x, this.now.y + y)) != LocationType.EXIT || PieceTypeInitializer.canFly(p)|| SquareCoordinate.makeCoordinate(xend, yend).equals(SquareCoordinate.makeCoordinate(this.now.x + x, this.now.y + y)))
+                  // check next position is empty or it can fly 
                     &&
+                  
                     (
-                    //location it wants to go to is empty 
-                    b.getPieceAt(SquareCoordinate.makeCoordinate(this.now.x + x, this.now.y + y)) == null ||
-                    // can jump or the location it comes from is empty ot itself 
-                    PieceTypeInitializer.canJump(p) 
-                    ||
-                    PieceTypeInitializer.canFly(p)
-                    || (SquareCoordinate.makeCoordinate(xend, yend).equals(SquareCoordinate.makeCoordinate(this.now.x + x, this.now.y + y)) && b.getPieceAt(SquareCoordinate.makeCoordinate(xend, yend)).getPlayer() != b.getPieceAt(SquareCoordinate.makeCoordinate(xstart, ystart)).getPlayer())
-                	)
-                    && (b.getLocationType(SquareCoordinate.makeCoordinate(this.now.x + x, this.now.y + y)) != LocationType.EXIT || PieceTypeInitializer.canFly(p) || SquareCoordinate.makeCoordinate(xend, yend).equals(SquareCoordinate.makeCoordinate(this.now.x + x, this.now.y + y)))
+                            ((b.getPieceAt(SquareCoordinate.makeCoordinate(this.now.x , this.now.y)))  == null || now.x == xstart && now.y == ystart)
+                            ||
+                            PieceTypeInitializer.canJump(p) && (
+                            		(b.getPieceAt(SquareCoordinate.makeCoordinate(this.now.x+x,this.now.y+y))) == null && (this.now.parent == null || SquareCoordinate.makeCoordinate(this.now.parent.x,this.now.parent.y).sameDiagonal(SquareCoordinate.makeCoordinate(node.x, node.y)))
+                            		||
+                            		(b.getPieceAt(SquareCoordinate.makeCoordinate(now.x, now.y)) == null && ( (node.x != xend && node.y != yend) || (SquareCoordinate.makeCoordinate(xend, yend).equals(SquareCoordinate.makeCoordinate(this.now.x + x, this.now.y + y)) && b.getPieceAt(SquareCoordinate.makeCoordinate(xend, yend)).getPlayer() != b.getPieceAt(SquareCoordinate.makeCoordinate(xstart, ystart)).getPlayer())))
+                            		)	
+                            ||
+                            // it can fly
+                            PieceTypeInitializer.canFly(p) 
+                            || ((node.x == xend && node.y == yend) && (b.getPieceAt(SquareCoordinate.makeCoordinate(xend, yend)) != null) &&(SquareCoordinate.makeCoordinate(xend, yend).equals(SquareCoordinate.makeCoordinate(this.now.x + x, this.now.y + y)) && b.getPieceAt(SquareCoordinate.makeCoordinate(xend, yend)).getPlayer() != b.getPieceAt(SquareCoordinate.makeCoordinate(xstart, ystart)).getPlayer()))
+                            )
+
+          
                     && SquareCoordinate.makeCoordinate(node.x, node.y).distanceTo(SquareCoordinate.makeCoordinate(now.x,now.y)) <= PieceTypeInitializer.getMaxDistance(p)
                     && !findNeighborInList(this.open, node) && !findNeighborInList(this.closed, node)) { // if not already done
                         node.g = node.parent.g + 1; // Horizontal/vertical cost = 1.0
@@ -271,13 +297,14 @@ public class SquareBoardAStar
         Node node;
         for (int x = -1 ; x < 2; x++) {
             for (int y = -1; y < 2;y++) {
-            	if ( x != 0 && y != 0) {
-                    continue; // skip if diagonal movement is not allowed
-                }
      
                 node = new Node(this.now, SquareCoordinate.makeCoordinate(this.now.x + x, this.now.y + y), this.now.g,(double)SquareCoordinate.makeCoordinate(now.x, now.y).distanceTo(SquareCoordinate.makeCoordinate(x, y)));
-                if ((x != 0 || y != 0) // not this.now
-                    && this.now.x + x >= 1 && this.now.x + x < b.getXMax() // check maze boundaries
+                if ((x != 0 || y != 0)&&
+            		(x != -1 || y != -1)&&
+                	(x != -1 || y != 1 )&&
+                	(x != 1 || y != -1)&& 
+                	(x != 1 || y != 1)// not this.now
+                	&& this.now.x + x >= 1 && this.now.x + x < b.getXMax() // check maze boundaries
                     && this.now.y + y >= 1 && this.now.y + y < b.getYMax()
                     && 
                     (
@@ -286,17 +313,25 @@ public class SquareBoardAStar
                     PieceTypeInitializer.canUnblock(p) ||
                     PieceTypeInitializer.canFly(p) 
                     )
+                  //check location is not exit or is the end
+                    &&  (b.getLocationType(SquareCoordinate.makeCoordinate(this.now.x + x, this.now.y + y)) != LocationType.EXIT || PieceTypeInitializer.canFly(p)|| SquareCoordinate.makeCoordinate(xend, yend).equals(SquareCoordinate.makeCoordinate(this.now.x + x, this.now.y + y)))
+                  // check next position is empty or it can fly 
                     &&
                     (
-                    //location it wants to go to is empty 
-                    b.getPieceAt(SquareCoordinate.makeCoordinate(this.now.x + x, this.now.y + y)) == null ||
-                    // can jump or the location it comes from is empty ot itself 
-                    PieceTypeInitializer.canJump(p) 
-                    ||
-                    PieceTypeInitializer.canFly(p)
-                    || (SquareCoordinate.makeCoordinate(xend, yend).equals(SquareCoordinate.makeCoordinate(this.now.x + x, this.now.y + y)) && b.getPieceAt(SquareCoordinate.makeCoordinate(xend, yend)).getPlayer() != b.getPieceAt(SquareCoordinate.makeCoordinate(xstart, ystart)).getPlayer())
-                	)
-                    && (b.getLocationType(SquareCoordinate.makeCoordinate(this.now.x + x, this.now.y + y)) != LocationType.EXIT || PieceTypeInitializer.canFly(p) || SquareCoordinate.makeCoordinate(xend, yend).equals(SquareCoordinate.makeCoordinate(this.now.x + x, this.now.y + y)))
+                            ((b.getPieceAt(SquareCoordinate.makeCoordinate(this.now.x , this.now.y)))  == null || now.x == xstart && now.y == ystart)
+                            ||
+                            PieceTypeInitializer.canJump(p) && (
+                            		(b.getPieceAt(SquareCoordinate.makeCoordinate(this.now.x+x,this.now.y+y))) == null && (this.now.parent == null || SquareCoordinate.makeCoordinate(this.now.parent.x,this.now.parent.y).sameOrthogonal(SquareCoordinate.makeCoordinate(node.x, node.y)))
+                            		||
+                            		(b.getPieceAt(SquareCoordinate.makeCoordinate(now.x, now.y)) == null && ( (node.x != xend && node.y != yend) || (SquareCoordinate.makeCoordinate(xend, yend).equals(SquareCoordinate.makeCoordinate(this.now.x + x, this.now.y + y)) && b.getPieceAt(SquareCoordinate.makeCoordinate(xend, yend)).getPlayer() != b.getPieceAt(SquareCoordinate.makeCoordinate(xstart, ystart)).getPlayer())))
+                            		)	
+                            ||
+                            // it can fly
+                            PieceTypeInitializer.canFly(p) 
+                            || ((node.x == xend && node.y == yend) && (b.getPieceAt(SquareCoordinate.makeCoordinate(xend, yend)) != null) &&(SquareCoordinate.makeCoordinate(xend, yend).equals(SquareCoordinate.makeCoordinate(this.now.x + x, this.now.y + y)) && b.getPieceAt(SquareCoordinate.makeCoordinate(xend, yend)).getPlayer() != b.getPieceAt(SquareCoordinate.makeCoordinate(xstart, ystart)).getPlayer()))
+                            )
+
+          
                     && SquareCoordinate.makeCoordinate(node.x, node.y).distanceTo(SquareCoordinate.makeCoordinate(now.x,now.y)) <= PieceTypeInitializer.getMaxDistance(p)
                     && !findNeighborInList(this.open, node) && !findNeighborInList(this.closed, node)) { // if not already done
                         node.g = node.parent.g + 1; // Horizontal/vertical cost = 1.0
@@ -305,36 +340,11 @@ public class SquareBoardAStar
 
                         this.open.add(node);
                 }
-            
             }
         }
         Collections.sort(this.open);
     }
     
-    /**
-     * check for consecutive pieces or if it is the last two and it can jump and the
-     * last piece is an enemy then it can jump and kill
-     * @param arr
-     * @return
-     */
-    private boolean constectuivePieces(ArrayList<Node> arr) {
-    	for(int i = 0;i < arr.size()-2;i++) {
-    		if(b.getPieceAt(SquareCoordinate.makeCoordinate(arr.get(i).x,arr.get(i).y)) != null 
-    				&& b.getPieceAt(SquareCoordinate.makeCoordinate(arr.get(i+1).x,arr.get(i+1).y)) != null
-    				&& b.getPieceAt(SquareCoordinate.makeCoordinate(arr.get(i+2).x,arr.get(i+2).y))!= null){
-    			
-    			if(b.getPieceAt(SquareCoordinate.makeCoordinate(arr.get(arr.size()-2).x,arr.get(path.size()-2).y)) != null
-    			        	&&b.getPieceAt(SquareCoordinate.makeCoordinate(arr.get(arr.size()-1).x,arr.get(arr.size()-1).y)) != null
-    			        	&& b.getPieceAt(SquareCoordinate.makeCoordinate(arr.get(arr.size()-1).x,arr.get(arr.size()-1).y)).getPlayer() !=
-    			        			b.getPieceAt(SquareCoordinate.makeCoordinate(xstart,ystart)).getPlayer()) {
-    				return false;
-    			}
-    			return true;
-    					
-    				}
-    	}
-    	return false;
-	
-    }
+  
  
 }

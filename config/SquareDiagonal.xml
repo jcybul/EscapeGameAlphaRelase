@@ -15,6 +15,11 @@
         <locationType>BLOCK</locationType>
     </locationInitializers>
     <locationInitializers> 
+        <x>1</x>
+        <y>11</y>
+        <locationType>BLOCK</locationType>
+    </locationInitializers>
+    <locationInitializers> 
         <x>11</x>
         <y>10</y>
         <locationType>BLOCK</locationType>
@@ -22,6 +27,16 @@
     <locationInitializers> 
         <x>17</x>
         <y>16</y>
+        <locationType>BLOCK</locationType>
+    </locationInitializers>
+    <locationInitializers> 
+        <x>3</x>
+        <y>13</y>
+        <locationType>BLOCK</locationType>
+    </locationInitializers>
+    <locationInitializers> 
+        <x>1</x>
+        <y>13</y>
         <locationType>BLOCK</locationType>
     </locationInitializers>
     <locationInitializers> 
@@ -42,6 +57,11 @@
     <locationInitializers> 
         <x>18</x>
         <y>6</y>
+        <locationType>BLOCK</locationType>
+    </locationInitializers>
+    <locationInitializers> 
+        <x>1</x>
+        <y>2</y>
         <locationType>BLOCK</locationType>
     </locationInitializers>
     <locationInitializers> 
@@ -67,6 +87,18 @@
     <locationInitializers>
     	<x>17</x>
     	<y>5</y>
+    	<pieceName>FROG</pieceName>
+    	<player>PLAYER1</player>
+    </locationInitializers>
+    <locationInitializers>
+    	<x>2</x>
+    	<y>10</y>
+    	<pieceName>FROG</pieceName>
+    	<player>PLAYER1</player>
+    </locationInitializers>
+    <locationInitializers>
+    	<x>3</x>
+    	<y>11</y>
     	<pieceName>FROG</pieceName>
     	<player>PLAYER1</player>
     </locationInitializers>

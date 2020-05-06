@@ -18,6 +18,7 @@ import java.util.HashMap;
 import javax.xml.bind.*;
 import escape.board.*;
 import escape.board.coordinate.*;
+import escape.exception.EscapeException;
 import escape.piece.*;
 import escape.util.*;
 
@@ -71,7 +72,20 @@ public class EscapeGameBuilder
     	if(initializers != null) {
     	for(PieceTypeInitializer i: initializers) {
     			types.put(i.getPieceName(), i);
+    		if(PieceTypeInitializer.canFly(i.getAttributes()) && PieceTypeInitializer.isDistance(i.getAttributes())){
+    			throw new EscapeException("cant have both Fly and distance");
+  
+    		}
+    		if(!PieceTypeInitializer.canFly(i.getAttributes()) && !PieceTypeInitializer.isDistance(i.getAttributes())){
+    			throw new EscapeException("Must Have A Fly Or Distance Attribute");
+    		}
+    		
+    	
     	}
+    	
+    	
+    	
+    	
     }
     	return types;
     }

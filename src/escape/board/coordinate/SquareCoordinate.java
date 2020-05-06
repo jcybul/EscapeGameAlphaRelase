@@ -451,7 +451,7 @@ public class SquareCoordinate implements Coordinate
 			case ORTHOGONAL:
 				SquareBoardAStar staro = new SquareBoardAStar(b,this,p);
 				ArrayList<Node> o = staro.findPathToOrtho(to.getX(),to.getY());
-				if( o != null && o.size()-1 <= PieceTypeInitializer.getMaxDistance(p)){
+				if( o != null && o.size()-1 <= PieceTypeInitializer.getMaxDistance(p) && OrtholegalJumps(o, to, b)){
 				return true;
 				}
 				else {
@@ -464,6 +464,28 @@ public class SquareCoordinate implements Coordinate
 		
 	}
 
+	
+	/**
+	 * check that pieces are not jumping on an L shape 
+	 * @param list
+	 * @param to
+	 * @param b
+	 * @return
+	 */
+	public boolean OrtholegalJumps(ArrayList<SquareBoardAStar.Node> list, SquareCoordinate to,SquareBoard b) {
+		
+		for(int i = 1; i < list.size()-1;i++) {
+			if(b.getPieceAt(makeCoordinate(list.get(i).x, list.get(i).y)) != null && 
+			!makeCoordinate(list.get(i-1).x, list.get(i-1).y).sameOrthogonal(makeCoordinate(list.get(i+1).x, list.get(i+1).y))){
+				return false;
+			}
+			
+		}	
+		return true;
+		
+	}
+	
+	
 
 	/*
 	 * @see java.lang.Object#equals(java.lang.Object)

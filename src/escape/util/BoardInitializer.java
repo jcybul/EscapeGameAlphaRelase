@@ -100,14 +100,14 @@ public class BoardInitializer
         this.locationInitializers = locationInitializers;
     }
 
-    /*
-     * @see java.lang.Object#toString()
-     */
-    @Override
-    public String toString()
-    {
-        return "BoardInitializer [xMax=" + xMax + ", yMax=" + yMax
-            + ", coordinateId=" + coordinateId + ", locationInitializers="
-            + Arrays.toString(locationInitializers) + "]";
-    }
+//    /*
+//     * @see java.lang.Object#toString()
+//     */
+//    @Override
+//    public String toString()
+//    {
+//        return "BoardInitializer [xMax=" + xMax + ", yMax=" + yMax
+//            + ", coordinateId=" + coordinateId + ", locationInitializers="
+//            + Arrays.toString(locationInitializers) + "]";
+//    }
 }

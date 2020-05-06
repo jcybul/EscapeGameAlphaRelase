@@ -30,7 +30,6 @@ public class OrthoGameRules
 	}
 
 	//attribute helpers
-	static ORules getPiece = (from,to,g)-> g.b.getPieceAt(from)!= null;
 	static ORules getDistance = (from,to,g)-> from.distanceTo(to) <= PieceTypeInitializer.getMaxDistance((g.PieceTypes.get(g.b.getPieceAt(from).getName()).getAttributes()))
 			&& -1 != PieceTypeInitializer.getMaxDistance((g.PieceTypes.get(g.b.getPieceAt(from).getName()).getAttributes()));
 	static ORules canJump = (from,to,g) -> PieceTypeInitializer.canJump((g.PieceTypes.get(g.b.getPieceAt(from).getName()).getAttributes()));
@@ -43,11 +42,11 @@ public class OrthoGameRules
 	// the distance is allowed flying or normal moving
 	getDistance.oTest(from, to, g) &&
 	// the path is clear from pieces  or (it can jump and there is a jumpable path) or can fly
-	(from.orthagonalIsClear(to, (OrthoBoard)g.b) || (canJump.oTest(from, to, g) && from.isJumpableOrthoPath(to,(OrthoBoard)g.b) || canFly.oTest(from, to, g))) &&
+	(from.orthagonalILocationClear(to, (OrthoBoard)g.b,null,true,false) || (canJump.oTest(from, to, g) && from.orthagonalILocationClear(to, (OrthoBoard)g.b,null,false,true) || canFly.oTest(from, to, g))) &&
 	// check that a location that path is unblocked and or it can unblock or it can fly 
-	(from.orthagonalIsUnblocked(to,(OrthoBoard)g.b) || canUnblock.oTest(from, to, g) || canFly.oTest(from, to, g)) &&
+	(from.orthagonalILocationClear(to, (OrthoBoard)g.b,LocationType.BLOCK,false,false) || canUnblock.oTest(from, to, g) || canFly.oTest(from, to, g)) &&
 	//clear from exits or fly
-	(from.orthagonalIsExitClear(to,(OrthoBoard)g.b) || canFly.oTest(from, to, g)) &&
+	(from.orthagonalILocationClear(to, (OrthoBoard)g.b,LocationType.EXIT,false,false) || canFly.oTest(from, to, g)) &&
 	//landing position is not blocked
 	(((OrthoBoard)g.b).getLocationType(to) != LocationType.BLOCK);
 	//destiantion is clear or enemy piece

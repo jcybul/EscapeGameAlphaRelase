@@ -12,10 +12,13 @@
 
 package escape;
 
-import java.util.HashMap;
-import escape.board.Board;
+import java.util.*;
+import escape.board.*;
 import escape.board.coordinate.HexCoordinate;
 import escape.piece.*;
+import escape.rule.GameHashMapOfRules;
+import escape.rule.HexGameRules.HRules;
+import escape.rule.OrthoGameRules.ORules;
 import escape.util.PieceTypeInitializer;
 
 /**
@@ -30,9 +33,10 @@ public class HexGame implements EscapeGameManager<HexCoordinate>
 	 *
 	 */
 	
-	Board b;
-	HashMap<PieceName,PieceTypeInitializer> PieceTypes;
-	public HexGame(Board b,HashMap<PieceName,PieceTypeInitializer> PieceTypes )
+	public HexBoard b;
+	public HashMap<PieceName,PieceTypeInitializer> PieceTypes;
+	
+	public HexGame(HexBoard b,HashMap<PieceName,PieceTypeInitializer> PieceTypes )
 	{
 		this.PieceTypes = PieceTypes;
 		this.b = b;
@@ -44,9 +48,30 @@ public class HexGame implements EscapeGameManager<HexCoordinate>
 	@Override
 	public boolean move(HexCoordinate from, HexCoordinate to)
 	{
-		// TODO Auto-generated method stub
-		return false;
+		GameHashMapOfRules rules = new GameHashMapOfRules();
+		if(b.getPieceAt(from) == null) {
+			return false;
+		}
+		
+		MovementPatternID pattern = this.PieceTypes.get(b.getPieceAt(from).getName()).getMovementPattern();
+		ArrayList<HRules> list = rules.hexMovePattern.get(pattern);
+		for(HRules r: list) {
+			if(r.hTest(from, to, this)) {
+				if( b.getPieceAt(to) != null && b.getPieceAt(from).getPlayer() == b.getPieceAt(to).getPlayer()) {
+					return false;
+				}
+				EscapePiece temp = b.getPieceAt(from);
+				b.putPieceAt(temp,to);
+				b.removePieceFrom(from);
+				if(b.getLocationType(to) == LocationType.EXIT) {
+					b.removePieceFrom(to);
+				}
+				return true;
+			}
+		}
+			return false;
 	}
+	
 
 	/*
 	 * @see escape.EscapeGameManager#getPieceAt(escape.board.coordinate.Coordinate)
@@ -54,8 +79,10 @@ public class HexGame implements EscapeGameManager<HexCoordinate>
 	@Override
 	public EscapePiece getPieceAt(HexCoordinate coordinate)
 	{
-		// TODO Auto-generated method stub
-		return null;
+		if(b.getPieceAt(coordinate) == null) {
+			return null;
+		}
+		return b.getPieceAt(coordinate);
 	}
 
 	/*
@@ -64,8 +91,7 @@ public class HexGame implements EscapeGameManager<HexCoordinate>
 	@Override
 	public HexCoordinate makeCoordinate(int x, int y)
 	{
-		// TODO Auto-generated method stub
-		return null;
+		return HexCoordinate.makeCoordinate(x, y);
 	}
 
 }

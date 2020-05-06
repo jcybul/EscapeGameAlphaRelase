@@ -72,275 +72,144 @@ public class OrthoSquareCoordinate implements Coordinate
 	}
 		
 	/**
-	 * Description calculate if the orthogonal is clear from other pieces 
+	 * Description calculate if the orthogonal is clear from given location and Pieces 
 	 * @param to Coordinate to destination
 	 * @param b  board 
-	 * @return true if the orthogonal is clear
+	 * @param l location type to check for 
+	 * @param Pieces if true check for pieces in the path else check the given location
+	 * @param Jump true if want to check to see if the path is a jumpbable path 
+	 * @return true if the orthogonal is clear or jumpable 
 	 */
-	public boolean orthagonalIsClear(OrthoSquareCoordinate to,OrthoBoard b) {
-		
-		//make sure the path is orthogonal
-		if(!this.sameOrthogonal(to)) {
-			return false;
-		}
+	public boolean orthagonalILocationClear(OrthoSquareCoordinate to,OrthoBoard b,LocationType l,boolean Pieces,boolean Jump) {
+
 		// check all four direction options
-		else{
-			
-			// when going horizontal and to the rigth 
-			if(this.getX() == to.getX() && this.getY() < to.getY()) {
-				int ypos = this.getY()+1; 
-				for(int i = 0; i< this.distanceTo(to)-1;i++) {
-					if(b.getPieceAt(makeCoordinate(this.getX(),ypos))!= null && (b.getLocationType(makeCoordinate(this.getX(), ypos)) != LocationType.BLOCK)){
-						return false;
-					}
-					ypos++;
-				}
-			}
-			//when going horizontal and to the left
-			else if(this.getX() == to.getX() && this.getY()> to.getY()) {
-				int ypos = this.getY()-1;
-				for(int i = 0; i< this.distanceTo(to)-1;i++) {
-					if(b.getPieceAt(makeCoordinate(this.getX(),ypos))!= null && (b.getLocationType(makeCoordinate(this.getX(), ypos)) != LocationType.BLOCK)){
-						return false;
-					}
-					ypos--;
-				}
-			}
-			//when going vertical and up 
-			else if(this.getY() == to.getY() && this.getX() < to.getX()) {
-				int xpos = this.getX()+1;
-				for(int i = 0; i< this.distanceTo(to)-1;i++) {
-					if(b.getPieceAt(makeCoordinate(xpos,this.getY()))!= null && (b.getLocationType(makeCoordinate(xpos,this.getY())) != LocationType.BLOCK)){
-						return false;
-					}
-					xpos++;
-				}
-			}
-			//when going vertical and down 
-			else if(this.getY() == to.getY() && this.getX() > to.getX()) {
-				int xpos = this.getX()-1;
-				for(int i = 0; i< this.distanceTo(to)-1;i++) {
-					if(b.getPieceAt(makeCoordinate(xpos,this.getY()))!= null && (b.getLocationType(makeCoordinate(xpos,this.getY())) != LocationType.BLOCK)){
-						return false;
-					}
-					xpos--;
-				}
-			}
-			
-		}
-		return true;
-	}
 	
-	/**
-	 * Description calculate if the orthogonal is clear from exits
-	 * @param to Coordinate to destination
-	 * @param b  board 
-	 * @return true if the orthogonal is clear
-	 */
-	public boolean orthagonalIsExitClear(OrthoSquareCoordinate to,OrthoBoard b) {
-		
-		//make sure the path is orthogonal
-		if(!this.sameOrthogonal(to)) {
-			return false;
-		}
-		// check all four direction options
-		else{
 			
 			// when going horizontal and to the rigth 
 			if(this.getX() == to.getX() && this.getY() < to.getY()) {
 				int ypos = this.getY()+1; 
+				int jumpCounter =0;
 				for(int i = 0; i< this.distanceTo(to)-1;i++) {
-					if( (b.getLocationType(makeCoordinate(this.getX(), ypos)) == LocationType.EXIT)){
-						return false;
-					}
-					ypos++;
-				}
-			}
-			//when going horizontal and to the left
-			else if(this.getX() == to.getX() && this.getY()> to.getY()) {
-				int ypos = this.getY()-1;
-				for(int i = 0; i< this.distanceTo(to)-1;i++) {
-					if((b.getLocationType(makeCoordinate(this.getX(), ypos)) == LocationType.EXIT)){
-						return false;
-					}
-					ypos--;
-				}
-			}
-			//when going vertical and up 
-			else if(this.getY() == to.getY() && this.getX() < to.getX()) {
-				int xpos = this.getX()+1;
-				for(int i = 0; i< this.distanceTo(to)-1;i++) {
-					if((b.getLocationType(makeCoordinate(xpos,this.getY())) == LocationType.EXIT)){
-						return false;
-					}
-					xpos++;
-				}
-			}
-			//when going vertical and down 
-			else if(this.getY() == to.getY() && this.getX() > to.getX()) {
-				int xpos = this.getX()-1;
-				for(int i = 0; i< this.distanceTo(to)-1;i++) {
-					if((b.getLocationType(makeCoordinate(xpos,this.getY())) == LocationType.EXIT)){
-						return false;
-					}
-					xpos--;
-				}
-			}
-			
-		}
-		return true;
-	}
-	
-	/**
-	 * Description calculate if the orthogonal is clear from other pieces 
-	 * @param to Coordinate to destination
-	 * @param b  board 
-	 * @return true if the orthogonal is clear
-	 */
-	public boolean orthagonalIsUnblocked(OrthoSquareCoordinate to,OrthoBoard b) {
-		
-		//make sure the path is orthogonal
-		if(!this.sameOrthogonal(to)) {
-			return false;
-		}
-		// check all four direction options
-		else{
-			
-			// when going horizontal and to the rigth 
-			if(this.getX() == to.getX() && this.getY() < to.getY()) {
-				int ypos = this.getY()+1; 
-				for(int i = 0; i< this.distanceTo(to)-1;i++) {
-					if( (b.getLocationType(makeCoordinate(this.getX(), ypos)) == LocationType.BLOCK)){
-						return false;
-					}
-					ypos++;
-				}
-			}
-			//when going horizontal and to the left
-			else if(this.getX() == to.getX() && this.getY()> to.getY()) {
-				int ypos = this.getY()-1;
-				for(int i = 0; i< this.distanceTo(to)-1;i++) {
-					if((b.getLocationType(makeCoordinate(this.getX(), ypos)) == LocationType.BLOCK)){
-						return false;
-					}
-					ypos--;
-				}
-			}
-			//when going vertical and up 
-			else if(this.getY() == to.getY() && this.getX() < to.getX()) {
-				int xpos = this.getX()+1;
-				for(int i = 0; i< this.distanceTo(to)-1;i++) {
-					if((b.getLocationType(makeCoordinate(xpos,this.getY())) == LocationType.BLOCK)){
-						return false;
-					}
-					xpos++;
-				}
-			}
-			//when going vertical and down 
-			else if(this.getY() == to.getY() && this.getX() > to.getX()) {
-				int xpos = this.getX()-1;
-				for(int i = 0; i< this.distanceTo(to)-1;i++) {
-					if((b.getLocationType(makeCoordinate(xpos,this.getY())) == LocationType.BLOCK)){
-						return false;
-					}
-					xpos--;
-				}
-			}
-			
-		}
-		return true;
-	}
-	/**
-	 * check that can jump that path, one space at a time
-	 * @param to
-	 * @param b
-	 * @return
-	 */
-	public boolean isJumpableOrthoPath(OrthoSquareCoordinate to, OrthoBoard b) {
-		//make sure the path is orthogonal
-				if(!this.sameOrthogonal(to)) {
-					return false;
-				}
-				// check all four direction options
-				else{
 					
-					// when going horizontal and to the rigth 
-					if(this.getX() == to.getX() && this.getY() < to.getY()) {
-						int ypos = this.getY()+1; 
-						int jumpCounter = 0;
-						for(int i = 0; i< this.distanceTo(to)-1;i++) {
-							if(b.getPieceAt(makeCoordinate(this.getX(),ypos))!= null){
-								jumpCounter++;
-							}
-							else {
-								jumpCounter--;
-							}
-							if(jumpCounter > 1) {
-								return false;
-							}
-							ypos++;
+					if(Pieces) {
+						if(b.getPieceAt(makeCoordinate(this.getX(),ypos))!= null ) {
+							return false;
 						}
 					}
-					//when going horizontal and to the left
-					else if(this.getX() == to.getX() && this.getY()> to.getY()) {
-						int ypos = this.getY()-1;
-						int jumpCounter = 0;
-						for(int i = 0; i< this.distanceTo(to)-1;i++) {
-							
-							if(b.getPieceAt(makeCoordinate(this.getX(),ypos))!= null){
-								jumpCounter++;
-							}
-							else {
-								jumpCounter--;
-							}
-							if(jumpCounter >1) {
-								return false;
-							}
-							ypos--;
+					else if(Jump) {
+						if(b.getPieceAt(makeCoordinate(this.getX(),ypos))!= null){
+							jumpCounter++;
 						}
-					}
-					//when going vertical and up 
-					else if(this.getY() == to.getY() && this.getX() < to.getX()) {
-						int xpos = this.getX()+1;
-						int jumpCounter= 0;
-						for(int i = 0; i< this.distanceTo(to)-1;i++) {
-							if(b.getPieceAt(makeCoordinate(xpos,this.getY()))!= null){
-								jumpCounter++;
-							}
-							else {
-								jumpCounter--;
-							}
-							if(jumpCounter >1) {
-								return false;
-							}
-							xpos++;
+						else {
+							jumpCounter--;
 						}
-					}
-					//when going vertical and down 
-					else if(this.getY() == to.getY() && this.getX() > to.getX()) {
-						int xpos = this.getX()-1;
-						int jumpCounter = 0;
-						for(int i = 0; i< this.distanceTo(to)-1;i++) {
-							if(b.getPieceAt(makeCoordinate(xpos,this.getY()))!= null){
-								jumpCounter++;
-							}
-							else {
-								jumpCounter--;
-							}
-							if(jumpCounter >1) {
-								return false;
-							}
-							xpos--;
-						}
+						if(jumpCounter > 1) {
+							return false;
+						}	
 					}
 					
+					else {
+						if( (b.getLocationType(makeCoordinate(this.getX(), ypos)) == l)){
+						return false;
+						}
+					}
+					ypos++;
 				}
-				return true;
+				
+				
+			}
+			//when going horizontal and to the left
+			else if(this.getX() == to.getX() && this.getY()> to.getY()) {
+				int ypos = this.getY()-1;
+				int jumpCounter = 0;
+				for(int i = 0; i< this.distanceTo(to)-1;i++) {
+					if(Pieces) {
+						if(b.getPieceAt(makeCoordinate(this.getX(),ypos))!= null) {
+							return false;
+						}
+					}
+					else if(Jump) {
+						if(b.getPieceAt(makeCoordinate(this.getX(),ypos))!= null){
+							jumpCounter++;
+						}
+						else {
+							jumpCounter--;
+						}
+						if(jumpCounter > 1) {
+							return false;
+						}	
+					}
+					
+					else {
+						if((b.getLocationType(makeCoordinate(this.getX(), ypos)) == l)){
+							return false;
+						}
+					}
+					ypos--;
+				}
+			}
+			//when going vertical and up 
+			else if(this.getY() == to.getY() && this.getX() < to.getX()) {
+				int xpos = this.getX()+1;
+				int jumpCounter =0;
+				for(int i = 0; i< this.distanceTo(to)-1;i++) {
+					if(Pieces) {
+						if(b.getPieceAt(makeCoordinate(xpos,this.getY()))!= null) {
+							return false;
+						}
+					}
+					else if(Jump) {
+						if(b.getPieceAt(makeCoordinate(xpos,this.getY()))!= null){
+							jumpCounter++;
+						}
+						else {
+							jumpCounter--;
+						}
+						if(jumpCounter >1) {
+							return false;
+						}
+					}
+					else {
+						if((b.getLocationType(makeCoordinate(xpos,this.getY())) == l)){
+							return false;
+						}
+					}
+					xpos++;
+				}
+			}
+			//when going vertical and down 
+			else if(this.getY() == to.getY() && this.getX() > to.getX()) {
+				int xpos = this.getX()-1;
+				int jumpCounter = 0;
+				for(int i = 0; i< this.distanceTo(to)-1;i++) {
+					if(Pieces) {
+						if(b.getPieceAt(makeCoordinate(xpos,this.getY()))!= null) {
+							return false;
+						}
+					}
+					else if(Jump) {
+						if(b.getPieceAt(makeCoordinate(xpos,this.getY()))!= null){
+							jumpCounter++;
+						}
+						else {
+							jumpCounter--;
+						}
+						if(jumpCounter >1) {
+							return false;
+						}
+					}
+					else {
+						if((b.getLocationType(makeCoordinate(xpos,this.getY())) == l)){
+							return false;
+						}
+					}
+					xpos--;
+				}
+			}
+			
+		
+		return true;
 	}
-	
-	
-	
-	
 	
 	/**
 	 * find if there is a path between this an a given coordinate 
@@ -353,7 +222,8 @@ public class OrthoSquareCoordinate implements Coordinate
 		
 		OrthoBoardAStar o = new OrthoBoardAStar(b, this, p);
 		ArrayList<OrthoBoardAStar.Node> path = o.findPathToOrtho(to.getX(), to.getY());
-		if( path != null && path.size()-1 <= PieceTypeInitializer.getMaxDistance(p)){
+		if( path != null && path.size()-1 <= PieceTypeInitializer.getMaxDistance(p) ){
+			
 			return true;
 		}
 		else {
@@ -361,6 +231,8 @@ public class OrthoSquareCoordinate implements Coordinate
 		}
 	
 	}
+	
+	
 
 	/**
 	 * @return the x

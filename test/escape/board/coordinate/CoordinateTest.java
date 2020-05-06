@@ -13,7 +13,7 @@
 package escape.board.coordinate;
 
 import static escape.board.coordinate.SquareCoordinate.makeCoordinate;
-import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.*;
 import escape.exception.EscapeException;
@@ -72,6 +72,11 @@ class CoordinateTest
 	}
 	
 	@Test
+	void hexCoordinaTrueteSameLine() {
+		assertTrue(HexCoordinate.makeCoordinate(-2,0).sameLine(HexCoordinate.makeCoordinate(0,-2)));
+	}
+	
+	@Test
 	void hexWithSquareException() {
 		Assertions.assertThrows(EscapeException.class, ()-> HexCoordinate.makeCoordinate(1,2).distanceTo(SquareCoordinate.makeCoordinate(3,5)));
 	}
@@ -97,5 +102,11 @@ class CoordinateTest
 	void OrthoWithSquareException() {
 		Assertions.assertThrows(EscapeException.class, ()-> OrthoSquareCoordinate.makeCoordinate(1,2).distanceTo(HexCoordinate.makeCoordinate(3,5)));
 	}
+	
+	
+	
+	
+	
+	
     
 }

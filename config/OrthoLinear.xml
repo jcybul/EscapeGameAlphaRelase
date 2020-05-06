@@ -100,6 +100,36 @@
         <player>PLAYER2</player>
     </locationInitializers>
     <locationInitializers>
+        <x>14</x>
+        <y>10</y>
+        <pieceName>SNAIL</pieceName>
+        <player>PLAYER2</player>
+    </locationInitializers>
+    <locationInitializers>
+        <x>14</x>
+        <y>9</y>
+        <pieceName>SNAIL</pieceName>
+        <player>PLAYER2</player>
+    </locationInitializers>
+    <locationInitializers>
+        <x>14</x>
+        <y>11</y>
+        <pieceName>SNAIL</pieceName>
+        <player>PLAYER2</player>
+    </locationInitializers>
+    <locationInitializers>
+        <x>15</x>
+        <y>10</y>
+        <pieceName>SNAIL</pieceName>
+        <player>PLAYER2</player>
+    </locationInitializers>
+    <locationInitializers>
+        <x>13</x>
+        <y>10</y>
+        <pieceName>SNAIL</pieceName>
+        <player>PLAYER2</player>
+    </locationInitializers>
+    <locationInitializers>
         <x>7</x>
         <y>8</y>
         <pieceName>SNAIL</pieceName>
@@ -126,6 +156,30 @@
     <locationInitializers>
         <x>9</x>
         <y>15</y>
+        <pieceName>SNAIL</pieceName>
+        <player>PLAYER2</player>
+    </locationInitializers>
+    <locationInitializers>
+        <x>2</x>
+        <y>5</y>
+        <pieceName>SNAIL</pieceName>
+        <player>PLAYER2</player>
+    </locationInitializers>
+    <locationInitializers>
+        <x>2</x>
+        <y>6</y>
+        <pieceName>SNAIL</pieceName>
+        <player>PLAYER2</player>
+    </locationInitializers>
+    <locationInitializers>
+        <x>2</x>
+        <y>7</y>
+        <pieceName>SNAIL</pieceName>
+        <player>PLAYER2</player>
+    </locationInitializers>
+    <locationInitializers>
+        <x>10</x>
+        <y>12</y>
         <pieceName>SNAIL</pieceName>
         <player>PLAYER2</player>
     </locationInitializers>
@@ -191,7 +245,7 @@
     </locationInitializers>
     <!-- Piece items, an array of pieceTypes, 1 or more -->
     <pieceTypes>
-        <movementPattern>ORTHOGONAL</movementPattern>
+        <movementPattern>LINEAR</movementPattern>
         <pieceName>FROG</pieceName>
         <attributes>
             <id>DISTANCE</id>
@@ -205,7 +259,7 @@
         </attributes>
     </pieceTypes>
     <pieceTypes>
-        <movementPattern>ORTHOGONAL</movementPattern>
+        <movementPattern>LINEAR</movementPattern>
         <pieceName>HORSE</pieceName>
         <attributes>
             <id>FLY</id>
@@ -219,7 +273,7 @@
         </attributes>
     </pieceTypes>
     <pieceTypes>
-        <movementPattern>ORTHOGONAL</movementPattern>
+        <movementPattern>LINEAR</movementPattern>
         <pieceName>SNAIL</pieceName>
         <attributes>
             <id>DISTANCE</id>

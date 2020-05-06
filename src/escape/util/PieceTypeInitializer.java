@@ -57,15 +57,15 @@ public class PieceTypeInitializer
 			this.attrType = attrType;
 		}
 
-		/*
-		 * @see java.lang.Object#toString()
-		 */
-		@Override
-		public String toString()
-		{
-			return "PieceAttribute [id=" + id + ", attrType=" + attrType
-			    + ", intValue=" + intValue + ", booleanValue=" + booleanValue + "]";
-		}
+//		/*
+//		 * @see java.lang.Object#toString()
+//		 */
+//		@Override
+//		public String toString()
+//		{
+//			return "PieceAttribute [id=" + id + ", attrType=" + attrType
+//			    + ", intValue=" + intValue + ", booleanValue=" + booleanValue + "]";
+//		}
     }
     
     private PieceName pieceName;
@@ -154,6 +154,20 @@ public class PieceTypeInitializer
     }
     
     /**
+     * check if a piece has a fly attribute
+     * @param p
+     * @return
+     */
+    public static boolean isDistance(PieceAttribute[] p) {
+    	
+    	for(PieceAttribute d:p) {
+    		if(d.getId() == PieceAttributeID.DISTANCE) {
+    			return true;
+    		}
+    	}
+    	return false;
+    }
+    /**
      * check the unblock state of given piecetype 
      * @param p
      * @return
@@ -182,15 +196,15 @@ public class PieceTypeInitializer
         this.attributes = attributes;
     }
 
-	/*
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString()
-	{
-		return "PieceTypeInitializer [pieceName=" + pieceName + ", movementPattern="
-		    + movementPattern + ", attributes=" + Arrays.toString(attributes) + "]";
-	}
-    
+//	/*
+//	 * @see java.lang.Object#toString()
+//	 */
+//	@Override
+//	public String toString()
+//	{
+//		return "PieceTypeInitializer [pieceName=" + pieceName + ", movementPattern="
+//		    + movementPattern + ", attributes=" + Arrays.toString(attributes) + "]";
+//	}
+//    
     
 }

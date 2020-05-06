@@ -14,6 +14,7 @@ package escape.rule;
 
 import java.util.*;
 import escape.piece.MovementPatternID;
+import escape.rule.HexGameRules.HRules;
 import escape.rule.OrthoGameRules.ORules;
 import escape.rule.SquareGameRules.Rules;
 
@@ -26,7 +27,7 @@ public class GameHashMapOfRules
 	// hash maps of rules 
 	public HashMap<MovementPatternID,ArrayList<Rules>> squareMovePattern = new HashMap<>();
 	public HashMap<MovementPatternID,ArrayList<ORules>> orthoMovePattern = new HashMap<>();
-	
+	public HashMap<MovementPatternID,ArrayList<HRules>> hexMovePattern = new HashMap<>();
 	
 	
 	// rules list for square boards 
@@ -39,6 +40,11 @@ public class GameHashMapOfRules
 	ArrayList<ORules> OrthoOmnilRules = new ArrayList<ORules>();
 	ArrayList<ORules> OrthoOrthoRules = new ArrayList<ORules>();
 	ArrayList<ORules> LinearOrthoRules = new ArrayList<ORules>();
+	
+	//rules lsit for hex baord 
+	ArrayList<HRules> OmniHexRules = new ArrayList<HRules>();
+	ArrayList<HRules> LinearHexRules = new ArrayList<HRules>();
+	
 	
 	
 	
@@ -74,6 +80,15 @@ public class GameHashMapOfRules
 	
 	
 	//ORTHO GAME
+	
+	//HEX GAME
+	OmniHexRules.add(HexGameRules.OmniHex);
+	LinearHexRules.add(HexGameRules.LinearHex);
+	
+	hexMovePattern.put(MovementPatternID.OMNI,OmniHexRules);
+	hexMovePattern.put(MovementPatternID.LINEAR, LinearHexRules);
+	
+	//HEX GAME
 	
 	
 	

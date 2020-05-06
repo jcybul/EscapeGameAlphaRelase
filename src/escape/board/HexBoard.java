@@ -72,6 +72,15 @@ public class HexBoard implements Board<HexCoordinate>
 	}
 
 	/**
+	 * Remove a piece from the given location on the board
+	 * @param coordinate where piece is to be removed
+	 */
+	public void removePieceFrom(HexCoordinate from) {
+		if(getPieceAt(from) != null) {
+		pieces.remove(from);
+		}
+	}
+	/**
 	 * Description
 	 * 
 	 * @param c
